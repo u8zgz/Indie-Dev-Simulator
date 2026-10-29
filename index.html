@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byte Studio - Dev Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(71, 85, 105, 1);
+        }
+        
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-panel-glow {
+            box-shadow: 0 0 20px -5px rgba(99, 102, 241, 0.15);
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col select-none overflow-x-hidden">
+
+    <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30">
+                <i data-lucide="terminal" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-none tracking-wide text-white flex items-center gap-2">
+                    BYTE STUDIO <span id="studio-name-display" class="text-xs px-2 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20 font-normal">Indie Studio</span>
+                </h1>
+                <p class="text-xs text-slate-400 mt-0.5">Game Dev Simulator v1.0</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 sm:gap-6 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800">
+            <div class="flex items-center gap-2" title="Studio Funds">
+                <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-400"></i>
+                <span id="stat-cash" class="font-mono font-bold text-emerald-400">$10,000</span>
+            </div>
+            <div class="h-4 w-px bg-slate-800"></div>
+            <div class="flex items-center gap-2" title="Studio Fans">
+                <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i>
+                <span id="stat-fans" class="font-mono font-bold text-indigo-300">0</span>
+            </div>
+            <div class="h-4 w-px bg-slate-800"></div>
+            <div class="flex items-center gap-2" title="Studio Reputation">
+                <i data-lucide="star" class="w-4 h-4 text-amber-400"></i>
+                <span id="stat-rep" class="font-mono font-bold text-amber-300">1.0</span>
+            </div>
+            <div class="h-4 w-px bg-slate-800"></div>
+            <div class="flex items-center gap-2" title="Monthly Expenses">
+                <i data-lucide="trending-down" class="w-4 h-4 text-rose-400"></i>
+                <span id="stat-expenses" class="font-mono text-xs text-rose-400">-$250/m</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button id="btn-sound" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700" title="Toggle Sound SFX">
+                <i data-lucide="volume-2" class="w-4 h-4"></i>
+            </button>
+            <button id="btn-reset" class="px-3 py-2 text-xs rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 transition-colors" title="Reset Game Progress">
+                Reset
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <section class="lg:col-span-2 space-y-6">
+
+            <div class="glass-panel glass-panel-glow rounded-2xl p-6 relative overflow-hidden">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-xl font-bold text-white">Active Development</h2>
+                            <span id="project-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">Idle</span>
+                        </div>
+                        <p id="project-subtitle" class="text-sm text-slate-400 mt-1">Design and publish your next hit game</p>
+                    </div>
+                    <button id="btn-new-project" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm rounded-xl transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i> Start New Game
+                    </button>
+                </div>
+
+                <div id="active-dev-container" class="hidden space-y-6 pt-2">
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
+                        <div>
+                            <h3 id="dev-game-title" class="text-lg font-bold text-indigo-300">Cyber Quest</h3>
+                            <div class="flex gap-3 text-xs text-slate-400 mt-1">
+                                <span>Genre: <strong id="dev-game-genre" class="text-slate-200">RPG</strong></span>
+                                <span>•</span>
+                                <span>Platform: <strong id="dev-game-platform" class="text-slate-200">PC</strong></span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-center">
+                                <span class="text-xs text-slate-400 block">Bugs</span>
+                                <span id="dev-game-bugs" class="font-mono text-rose-400 font-bold">0</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-xs text-slate-400 block">Quality</span>
+                                <span id="dev-game-quality" class="font-mono text-emerald-400 font-bold">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-slate-300 font-medium flex items-center gap-1.5"><i data-lucide="code-2" class="w-3.5 h-3.5 text-blue-400"></i> Code & Mechanics</span>
+                                <span id="progress-code-text" class="font-mono text-slate-400">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700/50">
+                                <div id="progress-code-bar" class="bg-blue-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-slate-300 font-medium flex items-center gap-1.5"><i data-lucide="palette" class="w-3.5 h-3.5 text-purple-400"></i> Art & Visuals</span>
+                                <span id="progress-art-text" class="font-mono text-slate-400">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700/50">
+                                <div id="progress-art-bar" class="bg-purple-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-slate-300 font-medium flex items-center gap-1.5"><i data-lucide="music" class="w-3.5 h-3.5 text-amber-400"></i> Sound & Music</span>
+                                <span id="progress-audio-text" class="font-mono text-slate-400">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700/50">
+                                <div id="progress-audio-bar" class="bg-amber-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button id="btn-crunch" class="flex-1 min-w-[130px] px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                            <i data-lucide="zap" class="w-3.5 h-3.5"></i> Crunch Work
+                        </button>
+                        <button id="btn-fix-bugs" class="flex-1 min-w-[130px] px-4 py-2 bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="bug" class="w-3.5 h-3.5"></i> Squash Bugs
+                        </button>
+                        <button id="btn-polish" class="flex-1 min-w-[130px] px-4 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Polish Game
+                        </button>
+                        <button id="btn-publish" class="w-full mt-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2">
+                            <i data-lucide="rocket" class="w-4 h-4"></i> Launch Game To Market!
+                        </button>
+                    </div>
+                </div>
+
+                <div id="active-dev-placeholder" class="py-12 flex flex-col items-center justify-center text-center border-2 border-dashed border-slate-800 rounded-xl">
+                    <div class="p-3 bg-slate-900 rounded-full text-slate-500 mb-3">
+                        <i data-lucide="gamepad-2" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-base font-semibold text-slate-300">No Active Project</h3>
+                    <p class="text-xs text-slate-500 max-w-sm mt-1 mb-4">Click "Start New Game" to choose your topic, sliders, target platform, and unleash your creative vision!</p>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="library" class="w-5 h-5 text-indigo-400"></i> Released Games
+                    </h2>
+                    <span id="catalog-count" class="text-xs text-slate-400 font-mono">0 titles</span>
+                </div>
+                <div id="catalog-list" class="space-y-3 max-h-[320px] overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 italic py-4 text-center">You haven't published any games yet. Launch your first title to start generating recurring sales!</p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="space-y-6">
+
+            <div class="glass-panel rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i data-lucide="user-check" class="w-5 h-5 text-indigo-400"></i> Studio Team
+                    </h2>
+                    <span id="team-count" class="text-xs font-mono text-slate-400">1 / 4 Staff</span>
+                </div>
+
+                <div id="team-list" class="space-y-3 mb-4">
+                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-indigo-300 font-bold text-xs">
+                                YOU
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-white">Lead Developer</h4>
+                                <p class="text-[10px] text-slate-400">Solo Dev • Speed 1.0x</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800/50 px-2 py-0.5 rounded">Owner</span>
+                    </div>
+                </div>
+
+                <button id="btn-hire-menu" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl border border-slate-700 transition-colors flex items-center justify-center gap-2">
+                    <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Hire Talent
+                </button>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6">
+                <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i> Hardware & Studio
+                </h2>
+
+                <div id="upgrades-list" class="space-y-3">
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-4">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i> Activity Log
+                </h3>
+                <div id="activity-log" class="text-[11px] font-mono space-y-1.5 text-slate-400 max-h-36 overflow-y-auto pr-1">
+                    <p class="text-slate-500">[System] Welcome to Byte Studio! Create your first game project.</p>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="border-t border-slate-900 bg-slate-950 px-4 py-3 text-center text-xs text-slate-500">
+        Deployable as a static SPA on <a href="https://pages.github.com" target="_blank" class="text-indigo-400 hover:underline">GitHub Pages</a> • Saved locally via LocalStorage
+    </footer>
+
+    <div id="modal-project" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-slate-800 shadow-2xl relative">
+            <button class="modal-close absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i> Design New Game
+            </h3>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Game Title</label>
+                    <input type="text" id="input-game-title" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="e.g. Pixel Dungeon" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Genre</label>
+                        <select id="select-game-genre" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                            <option value="Action">Action Platformer</option>
+                            <option value="RPG">Retro RPG</option>
+                            <option value="Puzzle">Puzzle / Mind</option>
+                            <option value="Strategy">Sci-Fi Strategy</option>
+                            <option value="Sim">Simulator</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Target Platform</label>
+                        <select id="select-game-platform" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                            <option value="PC">PC / Steam</option>
+                            <option value="Mobile">Mobile (iOS/Android)</option>
+                            <option value="Console">Console</option>
+                            <option value="Web">Web Browser</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Dev Focus Balance</h4>
+                    
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-300 mb-1">
+                            <span>Code & Engine</span>
+                            <span id="slider-code-val" class="font-mono text-indigo-400">40%</span>
+                        </div>
+                        <input type="range" id="slider-code" min="10" max="80" value="40" class="w-full accent-indigo-500 bg-slate-800 rounded-lg h-1.5" />
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-300 mb-1">
+                            <span>Art & Animation</span>
+                            <span id="slider-art-val" class="font-mono text-indigo-400">30%</span>
+                        </div>
+                        <input type="range" id="slider-art" min="10" max="80" value="30" class="w-full accent-indigo-500 bg-slate-800 rounded-lg h-1.5" />
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-slate-300 mb-1">
+                            <span>Audio & SFX</span>
+                            <span id="slider-audio-val" class="font-mono text-indigo-400">30%</span>
+                        </div>
+                        <input type="range" id="slider-audio" min="10" max="80" value="30" class="w-full accent-indigo-500 bg-slate-800 rounded-lg h-1.5" />
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button class="modal-close px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-xl font-medium transition-colors">Cancel</button>
+                    <button id="btn-start-dev-confirm" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-indigo-600/20">
+                        Start Development
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-hire" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-800 shadow-2xl relative">
+            <button class="modal-close absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="users" class="w-5 h-5 text-indigo-400"></i> Recruit Developers
+            </h3>
+
+            <div id="hire-candidates-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-review" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-slate-800 shadow-2xl relative text-center">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-3 text-emerald-400">
+                <i data-lucide="award" class="w-8 h-8"></i>
+            </div>
+
+            <h2 id="review-game-title" class="text-2xl font-black text-white">Game Title</h2>
+            <p id="review-game-meta" class="text-xs text-slate-400 mt-0.5">Genre • Platform</p>
+
+            <div class="my-6 p-4 bg-slate-900/90 rounded-xl border border-slate-800 flex items-center justify-around">
+                <div>
+                    <span class="text-xs text-slate-400 block">Critic Score</span>
+                    <span id="review-score" class="text-3xl font-black text-amber-400">8.5<span class="text-xs text-slate-500">/10</span></span>
+                </div>
+                <div class="h-8 w-px bg-slate-800"></div>
+                <div>
+                    <span class="text-xs text-slate-400 block">Initial Revenue</span>
+                    <span id="review-revenue" class="text-2xl font-mono font-bold text-emerald-400">+$12,500</span>
+                </div>
+            </div>
+
+            <p id="review-quote" class="text-sm italic text-slate-300 bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 mb-6">
+                "An absolute masterpiece of retro gaming!"
+            </p>
+
+            <button id="btn-close-review" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-indigo-600/20">
+                Collect Revenue & Return
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const AudioFX = {
+            ctx: null,
+            enabled: true,
+
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            },
+
+            playClick() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.05);
+                    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.05);
+                } catch(e){}
+            },
+
+            playSuccess() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.08);
+                    osc.frequency.setValueAtTime(783.99, now + 0.16);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.24);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } catch(e){}
+            },
+
+            playUpgrade() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                } catch(e){}
+            }
+        };
+
+        const DEFAULT_STATE = {
+            cash: 12000,
+            fans: 50,
+            reputation: 1.0,
+            studioName: "Byte Studio",
+            activeProject: null,
+            releasedGames: [],
+            hiredStaff: [],
+            purchasedUpgrades: [],
+            monthTick: 0
+        };
+
+        let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+
+        const UPGRADES_DB = [
+            { id: "cpu_1", name: "Multi-Core Workstation", cost: 2500, devMult: 1.2, desc: "Increases coding speed by 20%" },
+            { id: "gpu_1", name: "Render Acceleration Rig", cost: 4000, artMult: 1.3, desc: "Increases graphics generation by 30%" },
+            { id: "desk_1", name: "Ergonomic Setup", cost: 1500, qualityBonus: 5, desc: "Boosts baseline game quality" },
+            { id: "audio_1", name: "Acoustic Synth Studio", cost: 3500, audioMult: 1.3, desc: "Increases audio design output by 30%" },
+            { id: "office_2", name: "Spacious Loft Office", cost: 15000, maxStaff: 6, desc: "Expands max hiring capacity to 6 staff" }
+        ];
+
+        const CANDIDATES_DB = [
+            { id: "c1", name: "Alex Rivers", role: "Junior Programmer", skill: "code", speed: 1.2, salary: 400 },
+            { id: "c2", name: "Elena Rostova", role: "2D Pixel Artist", skill: "art", speed: 1.3, salary: 500 },
+            { id: "c3", name: "Marcus Vance", role: "Sound Designer", skill: "audio", speed: 1.2, salary: 450 },
+            { id: "c4", name: "Sora Takahashi", role: "Full-Stack Senior", skill: "code", speed: 1.8, salary: 1200 }
+        ];
+
+
+        function initApp() {
+            loadState();
+            lucide.createIcons();
+            setupEventListeners();
+            startLoop();
+            renderAll();
+        }
+
+        function saveState() {
+            localStorage.setItem('byte_studio_save', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('byte_studio_save');
+            if (saved) {
+                try {
+                    state = Object.assign({}, DEFAULT_STATE, JSON.parse(saved));
+                } catch(e) {
+                    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+                }
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('btn-sound').addEventListener('click', (e) => {
+                AudioFX.init();
+                AudioFX.enabled = !AudioFX.enabled;
+                e.currentTarget.classList.toggle('text-slate-500', !AudioFX.enabled);
+                e.currentTarget.classList.toggle('text-indigo-400', AudioFX.enabled);
+                logActivity(AudioFX.enabled ? "Audio SFX Enabled" : "Audio SFX Muted");
+            });
+
+            document.getElementById('btn-reset').addEventListener('click', () => {
+                if (confirm("Reset all game progress and restart?")) {
+                    localStorage.removeItem('byte_studio_save');
+                    state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+                    renderAll();
+                    logActivity("Game progress reset.");
+                }
+            });
+
+            document.getElementById('btn-new-project').addEventListener('click', () => {
+                AudioFX.init();
+                AudioFX.playClick();
+                if (state.activeProject) {
+                    alert("Finish or launch your current project before starting a new one!");
+                    return;
+                }
+                document.getElementById('modal-project').classList.remove('hidden');
+            });
+
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.closest('.fixed').classList.add('hidden');
+                });
+            });
+
+            const sCode = document.getElementById('slider-code');
+            const sArt = document.getElementById('slider-art');
+            const sAudio = document.getElementById('slider-audio');
+
+            [sCode, sArt, sAudio].forEach(s => {
+                s.addEventListener('input', () => {
+                    document.getElementById('slider-code-val').innerText = sCode.value + '%';
+                    document.getElementById('slider-art-val').innerText = sArt.value + '%';
+                    document.getElementById('slider-audio-val').innerText = sAudio.value + '%';
+                });
+            });
+
+            document.getElementById('btn-start-dev-confirm').addEventListener('click', () => {
+                const title = document.getElementById('input-game-title').value.trim() || "Untitled Project";
+                const genre = document.getElementById('select-game-genre').value;
+                const platform = document.getElementById('select-game-platform').value;
+
+                state.activeProject = {
+                    title,
+                    genre,
+                    platform,
+                    code: 0,
+                    art: 0,
+                    audio: 0,
+                    codeTarget: parseInt(sCode.value) * 2,
+                    artTarget: parseInt(sArt.value) * 2,
+                    audioTarget: parseInt(sAudio.value) * 2,
+                    bugs: 0,
+                    quality: 10
+                };
+
+                document.getElementById('modal-project').classList.add('hidden');
+                AudioFX.playSuccess();
+                logActivity(`Started development of "${title}" (${genre})`);
+                saveState();
+                renderAll();
+            });
+
+            document.getElementById('btn-crunch').addEventListener('click', () => {
+                if (!state.activeProject) return;
+                AudioFX.init();
+                AudioFX.playClick();
+                
+                let devSpeed = 1.0;
+                if (hasUpgrade('cpu_1')) devSpeed *= 1.2;
+
+                state.activeProject.code = Math.min(state.activeProject.codeTarget, state.activeProject.code + (5 * devSpeed));
+                state.activeProject.art = Math.min(state.activeProject.artTarget, state.activeProject.art + (4 * devSpeed));
+                state.activeProject.audio = Math.min(state.activeProject.audioTarget, state.activeProject.audio + (4 * devSpeed));
+                
+                if (Math.random() < 0.4) state.activeProject.bugs += 1;
+                state.activeProject.quality += 1;
+
+                renderAll();
+            });
+
+            document.getElementById('btn-fix-bugs').addEventListener('click', () => {
+                if (!state.activeProject || state.activeProject.bugs <= 0) return;
+                AudioFX.playClick();
+                state.activeProject.bugs = Math.max(0, state.activeProject.bugs - 2);
+                renderAll();
+            });
+
+            document.getElementById('btn-polish').addEventListener('click', () => {
+                if (!state.activeProject) return;
+                AudioFX.playClick();
+                state.activeProject.quality += 3;
+                renderAll();
+            });
+
+            document.getElementById('btn-publish').addEventListener('click', () => {
+                if (!state.activeProject) return;
+                publishActiveProject();
+            });
+
+            document.getElementById('btn-hire-menu').addEventListener('click', () => {
+                AudioFX.playClick();
+                renderHireModal();
+                document.getElementById('modal-hire').classList.remove('hidden');
+            });
+
+            document.getElementById('btn-close-review').addEventListener('click', () => {
+                document.getElementById('modal-review').classList.add('hidden');
+            });
+        }
+
+        function startLoop() {
+            setInterval(() => {
+                state.monthTick++;
+
+                if (state.activeProject) {
+                    state.hiredStaff.forEach(staff => {
+                        if (staff.skill === 'code') state.activeProject.code = Math.min(state.activeProject.codeTarget, state.activeProject.code + staff.speed);
+                        if (staff.skill === 'art') state.activeProject.art = Math.min(state.activeProject.artTarget, state.activeProject.art + staff.speed);
+                        if (staff.skill === 'audio') state.activeProject.audio = Math.min(state.activeProject.audioTarget, state.activeProject.audio + staff.speed);
+                    });
+                }
+
+                let passiveIncome = 0;
+                state.releasedGames.forEach(game => {
+                    const monthlySales = Math.floor(game.baseRevenue * Math.pow(0.85, (state.monthTick - game.releaseMonth)));
+                    if (monthlySales > 10) {
+                        passiveIncome += monthlySales;
+                    }
+                });
+
+                let totalSalaries = 250;
+                state.hiredStaff.forEach(s => totalSalaries += s.salary);
+
+                state.cash += (passiveIncome - totalSalaries);
+
+                if (state.cash < 0) {
+                    logActivity("WARNING: Studio balance in negative territory!");
+                }
+
+                saveState();
+                renderAll();
+            }, 3000);
+        }
+
+        function hasUpgrade(id) {
+            return state.purchasedUpgrades.includes(id);
+        }
+
+        function logActivity(msg) {
+            const container = document.getElementById('activity-log');
+            const p = document.createElement('p');
+            p.innerHTML = `<span class="text-slate-600">[${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}]</span> ${msg}`;
+            container.prepend(p);
+        }
+
+        function publishActiveProject() {
+            const p = state.activeProject;
+            if (!p) return;
+
+            const codeRatio = p.code / p.codeTarget;
+            const artRatio = p.art / p.artTarget;
+            const audioRatio = p.audio / p.audioTarget;
+            const bugPenalty = p.bugs * 0.4;
+
+            let score = ((codeRatio + artRatio + audioRatio) / 3) * 8 + (p.quality * 0.1) - bugPenalty;
+            if (hasUpgrade('desk_1')) score += 0.5;
+            
+            score = Math.min(10, Math.max(1.5, score)).toFixed(1);
+
+            const multiplier = parseFloat(score) / 5;
+            const baseRevenue = Math.floor(6000 * Math.pow(multiplier, 2.5) * state.reputation);
+            
+            state.cash += baseRevenue;
+            state.fans += Math.floor(parseFloat(score) * 40);
+            state.reputation = Math.min(5.0, state.reputation + (score > 7 ? 0.2 : -0.1)).toFixed(1);
+
+            const released = {
+                title: p.title,
+                genre: p.genre,
+                platform: p.platform,
+                score: score,
+                baseRevenue: baseRevenue,
+                releaseMonth: state.monthTick
+            };
+            state.releasedGames.unshift(released);
+
+            AudioFX.playSuccess();
+
+            document.getElementById('review-game-title').innerText = p.title;
+            document.getElementById('review-game-meta').innerText = `${p.genre} • ${p.platform}`;
+            document.getElementById('review-score').innerHTML = `${score}<span class="text-xs text-slate-500">/10</span>`;
+            document.getElementById('review-revenue').innerText = `+$${baseRevenue.toLocaleString()}`;
+
+            let quote = "A solid effort with promising mechanics.";
+            if (score >= 9.0) quote = "AN ABSOLUTE MASTERPIECE! Game of the Year contender!";
+            else if (score >= 7.5) quote = "Extremely polished and highly engaging gameplay.";
+            else if (score < 5.0) quote = "Riddled with bugs and poor optimization. A missed opportunity.";
+            document.getElementById('review-quote').innerText = `"${quote}"`;
+
+            document.getElementById('modal-review').classList.remove('hidden');
+
+            logActivity(`Launched "${p.title}"! Rating: ${score}/10, Initial Sales: $${baseRevenue.toLocaleString()}`);
+
+            state.activeProject = null;
+            saveState();
+            renderAll();
+        }
+
+        function renderAll() {
+            document.getElementById('stat-cash').innerText = `$${state.cash.toLocaleString()}`;
+            document.getElementById('stat-fans').innerText = state.fans.toLocaleString();
+            document.getElementById('stat-rep').innerText = state.reputation;
+
+            let totalExpenses = 250;
+            state.hiredStaff.forEach(s => totalExpenses += s.salary);
+            document.getElementById('stat-expenses').innerText = `-$${totalExpenses}/m`;
+
+            const p = state.activeProject;
+            const devContainer = document.getElementById('active-dev-container');
+            const placeholder = document.getElementById('active-dev-placeholder');
+            const badge = document.getElementById('project-status-badge');
+
+            if (p) {
+                devContainer.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                badge.innerText = "In Development";
+                badge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30";
+
+                document.getElementById('dev-game-title').innerText = p.title;
+                document.getElementById('dev-game-genre').innerText = p.genre;
+                document.getElementById('dev-game-platform').innerText = p.platform;
+                document.getElementById('dev-game-bugs').innerText = p.bugs;
+                document.getElementById('dev-game-quality').innerText = p.quality;
+
+                const cPct = Math.floor((p.code / p.codeTarget) * 100);
+                const aPct = Math.floor((p.art / p.artTarget) * 100);
+                const auPct = Math.floor((p.audio / p.audioTarget) * 100);
+
+                document.getElementById('progress-code-bar').style.width = `${cPct}%`;
+                document.getElementById('progress-code-text').innerText = `${cPct}%`;
+
+                document.getElementById('progress-art-bar').style.width = `${aPct}%`;
+                document.getElementById('progress-art-text').innerText = `${aPct}%`;
+
+                document.getElementById('progress-audio-bar').style.width = `${auPct}%`;
+                document.getElementById('progress-audio-text').innerText = `${auPct}%`;
+
+                const btnPublish = document.getElementById('btn-publish');
+                if (cPct >= 100 && aPct >= 100 && auPct >= 100) {
+                    btnPublish.classList.remove('opacity-50', 'cursor-not-allowed');
+                    btnPublish.disabled = false;
+                } else {
+                    btnPublish.classList.add('opacity-50');
+                }
+            } else {
+                devContainer.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                badge.innerText = "Idle";
+                badge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700";
+            }
+
+            const catalogList = document.getElementById('catalog-list');
+            document.getElementById('catalog-count').innerText = `${state.releasedGames.length} titles`;
+
+            if (state.releasedGames.length > 0) {
+                catalogList.innerHTML = state.releasedGames.map(g => `
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-xs font-bold text-white">${g.title}</h4>
+                            <p class="text-[10px] text-slate-400 mt-0.5">${g.genre} • ${g.platform}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold text-amber-400 flex items-center justify-end gap-1">
+                                <i data-lucide="star" class="w-3 h-3 fill-amber-400"></i> ${g.score}
+                            </span>
+                            <span class="text-[10px] text-emerald-400 font-mono block">+$${g.baseRevenue.toLocaleString()}</span>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            const upgradesList = document.getElementById('upgrades-list');
+            upgradesList.innerHTML = UPGRADES_DB.map(u => {
+                const bought = hasUpgrade(u.id);
+                return `
+                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-xs font-semibold text-slate-200">${u.name}</h4>
+                            <p class="text-[10px] text-slate-400">${u.desc}</p>
+                        </div>
+                        ${bought 
+                            ? `<span class="text-[10px] px-2 py-0.5 bg-indigo-950 text-indigo-400 rounded border border-indigo-800/50">Purchased</span>`
+                            : `<button onclick="buyUpgrade('${u.id}')" class="px-2.5 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-medium rounded-lg transition-colors">
+                                  $${u.cost.toLocaleString()}
+                               </button>`
+                        }
+                    </div>
+                `;
+            }).join('');
+
+            const teamList = document.getElementById('team-list');
+            const maxCapacity = hasUpgrade('office_2') ? 6 : 4;
+            document.getElementById('team-count').innerText = `${state.hiredStaff.length + 1} / ${maxCapacity} Staff`;
+
+            let staffHTML = `
+                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-600/30 border border-indigo-500/40 flex items-center justify-center text-indigo-300 font-bold text-[10px]">
+                            YOU
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-semibold text-white">Lead Developer</h4>
+                            <p class="text-[10px] text-slate-400">Founder</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800/50 px-2 py-0.5 rounded">Owner</span>
+                </div>
+            `;
+
+            state.hiredStaff.forEach((s, idx) => {
+                staffHTML += `
+                    <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-xs font-semibold text-slate-200">${s.name}</h4>
+                            <p class="text-[10px] text-slate-400">${s.role} • +${s.speed} dev/s</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] text-rose-400 font-mono block">-$${s.salary}/m</span>
+                        </div>
+                    </div>
+                `;
+            });
+            teamList.innerHTML = staffHTML;
+        }
+
+        function buyUpgrade(id) {
+            const upg = UPGRADES_DB.find(u => u.id === id);
+            if (!upg) return;
+
+            if (state.cash < upg.cost) {
+                alert("Insufficient funds for this upgrade!");
+                return;
+            }
+
+            state.cash -= upg.cost;
+            state.purchasedUpgrades.push(id);
+            AudioFX.playUpgrade();
+            logActivity(`Upgraded office: Purchased ${upg.name}`);
+            saveState();
+            renderAll();
+        }
+
+        function renderHireModal() {
+            const container = document.getElementById('hire-candidates-list');
+            container.innerHTML = CANDIDATES_DB.map(c => `
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div>
+                        <h4 class="text-xs font-bold text-white">${c.name}</h4>
+                        <p class="text-[10px] text-indigo-400">${c.role}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">Salary: $${c.salary}/m</p>
+                    </div>
+                    <button onclick="hireCandidate('${c.id}')" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition-colors">
+                        Hire
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function hireCandidate(id) {
+            const cand = CANDIDATES_DB.find(c => c.id === id);
+            if (!cand) return;
+
+            const maxCapacity = hasUpgrade('office_2') ? 6 : 4;
+            if (state.hiredStaff.length + 1 >= maxCapacity) {
+                alert("Office capacity reached! Upgrade your studio space first.");
+                return;
+            }
+
+            state.hiredStaff.push(cand);
+            AudioFX.playSuccess();
+            logActivity(`Hired ${cand.name} as ${cand.role}`);
+            document.getElementById('modal-hire').classList.add('hidden');
+            saveState();
+            renderAll();
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
