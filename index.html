@@ -1,21 +1,17 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte Studio - Hardcore Simulator</title>
+    <title>Byte Studio - Complete Simulator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
         ::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(71, 85, 105, 1); }
-        
         .glass-panel {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .tab-btn.active {
@@ -27,69 +23,67 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col select-none overflow-x-hidden">
 
-    <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+    <header class="glass-panel sticky top-0 z-40 border-b border-slate-800 px-4 py-3 flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center gap-3">
             <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30">
                 <i data-lucide="terminal" class="w-6 h-6"></i>
             </div>
             <div>
                 <h1 class="font-bold text-lg leading-none tracking-wide text-white flex items-center gap-2">
-                    BYTE STUDIO <span id="display-studio-tier" class="text-[10px] px-2 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20 font-mono">Tier 1 Studio</span>
+                    BYTE STUDIO <span id="display-studio-tier" class="text-[10px] px-2 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20 font-mono">Tier 1</span>
                 </h1>
-                <p class="text-xs text-slate-400 mt-0.5">Long-Run Game Dev Simulator</p>
+                <p class="text-xs text-slate-400 mt-0.5">Game Dev & Prestige Simulator</p>
             </div>
         </div>
 
-        <div class="flex items-center gap-3 sm:gap-5 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 text-xs sm:text-sm">
-            <div class="flex items-center gap-1.5" title="Studio Cash">
+        <div class="flex items-center gap-4 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 text-xs sm:text-sm">
+            <div class="flex items-center gap-1.5">
                 <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-400"></i>
                 <span id="stat-cash" class="font-mono font-bold text-emerald-400">$10,000</span>
             </div>
             <div class="h-4 w-px bg-slate-800"></div>
-            <div class="flex items-center gap-1.5" title="Research Points">
+            <div class="flex items-center gap-1.5">
                 <i data-lucide="flask-conical" class="w-4 h-4 text-cyan-400"></i>
                 <span id="stat-rp" class="font-mono font-bold text-cyan-300">0 RP</span>
             </div>
             <div class="h-4 w-px bg-slate-800"></div>
-            <div class="flex items-center gap-1.5" title="Prestige Byte Bits">
+            <div class="flex items-center gap-1.5">
                 <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
                 <span id="stat-bits" class="font-mono font-bold text-amber-300">0 Bits</span>
             </div>
             <div class="h-4 w-px bg-slate-800"></div>
-            <div class="flex items-center gap-1.5" title="Studio Reputation">
+            <div class="flex items-center gap-1.5">
                 <i data-lucide="star" class="w-4 h-4 text-purple-400"></i>
                 <span id="stat-rep" class="font-mono font-bold text-purple-300">1.0</span>
             </div>
         </div>
 
-        <!-- Controls -->
         <div class="flex items-center gap-2">
-            <button id="btn-sound" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700" title="Toggle SFX">
+            <button id="btn-sound" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
                 <i data-lucide="volume-2" class="w-4 h-4"></i>
             </button>
-            <button id="btn-prestige-open" class="px-3 py-2 text-xs rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition-colors flex items-center gap-1.5 font-bold">
+            <button id="btn-prestige-open" class="px-3 py-2 text-xs rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold flex items-center gap-1.5">
                 <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Rebirth
             </button>
         </div>
     </header>
 
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6">
-
         <div class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
-            <button class="tab-btn active px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-dev">
+            <button class="tab-btn active px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-2" data-tab="tab-dev">
                 <i data-lucide="gamepad-2" class="w-4 h-4"></i> Development
             </button>
-            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-research">
+            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-2" data-tab="tab-research">
                 <i data-lucide="flask-conical" class="w-4 h-4"></i> Tech Tree
             </button>
-            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-upgrades">
+            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-2" data-tab="tab-upgrades">
                 <i data-lucide="cpu" class="w-4 h-4"></i> Hardware & Studio
             </button>
-            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-marketing">
+            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white flex items-center gap-2" data-tab="tab-marketing">
                 <i data-lucide="megaphone" class="w-4 h-4"></i> Marketing & Deals
             </button>
-            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-amber-400 hover:text-amber-300 transition-all flex items-center gap-2" data-tab="tab-prestige">
-                <i data-lucide="zap" class="w-4 h-4"></i> Byte Matrix (Prestige)
+            <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-2" data-tab="tab-prestige">
+                <i data-lucide="zap" class="w-4 h-4"></i> Byte Matrix
             </button>
         </div>
 
@@ -101,9 +95,9 @@
                             <h2 class="text-xl font-bold text-white flex items-center gap-2">
                                 Studio Operations <span id="project-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">Idle</span>
                             </h2>
-                            <p class="text-xs text-slate-400 mt-1">Develop titles, fix game-breaking bugs, and earn market traction</p>
+                            <p class="text-xs text-slate-400 mt-1">Develop titles, fix bugs, and launch to the market</p>
                         </div>
-                        <button id="btn-new-project" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-xl transition-all shadow-lg flex items-center gap-1.5">
+                        <button id="btn-new-project" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-xl shadow-lg flex items-center gap-1.5">
                             <i data-lucide="plus-circle" class="w-4 h-4"></i> Start New Game
                         </button>
                     </div>
@@ -120,54 +114,53 @@
                             </div>
                         </div>
 
-                        <!-- Progress Bars -->
                         <div class="space-y-3">
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-300 font-medium"><i data-lucide="code-2" class="w-3.5 h-3.5 inline text-blue-400 mr-1"></i> Code & Engine</span>
+                                    <span class="text-slate-300 font-medium">Code & Engine</span>
                                     <span id="progress-code-text" class="font-mono text-slate-400">0 / 250</span>
                                 </div>
-                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-code-bar" class="bg-blue-500 h-full w-0 transition-all"></div></div>
+                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-code-bar" class="bg-blue-500 h-full w-0"></div></div>
                             </div>
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-300 font-medium"><i data-lucide="palette" class="w-3.5 h-3.5 inline text-purple-400 mr-1"></i> Graphics & Visuals</span>
+                                    <span class="text-slate-300 font-medium">Graphics & Art</span>
                                     <span id="progress-art-text" class="font-mono text-slate-400">0 / 250</span>
                                 </div>
-                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-art-bar" class="bg-purple-500 h-full w-0 transition-all"></div></div>
+                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-art-bar" class="bg-purple-500 h-full w-0"></div></div>
                             </div>
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-300 font-medium"><i data-lucide="music" class="w-3.5 h-3.5 inline text-amber-400 mr-1"></i> Audio & SFX</span>
+                                    <span class="text-slate-300 font-medium">Audio & SFX</span>
                                     <span id="progress-audio-text" class="font-mono text-slate-400">0 / 250</span>
                                 </div>
-                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-audio-bar" class="bg-amber-500 h-full w-0 transition-all"></div></div>
+                                <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-audio-bar" class="bg-amber-500 h-full w-0"></div></div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
-                            <button id="btn-crunch" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5">
+                            <button id="btn-crunch" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5">
                                 <i data-lucide="zap" class="w-3.5 h-3.5"></i> Crunch Work
                             </button>
-                            <button id="btn-generate-rp" class="px-3 py-2 bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-800/50 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5">
+                            <button id="btn-generate-rp" class="px-3 py-2 bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-800/50 text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5">
                                 <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i> Research RP
                             </button>
-                            <button id="btn-fix-bugs" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-1.5">
+                            <button id="btn-fix-bugs" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-semibold rounded-xl border border-slate-700 flex items-center justify-center gap-1.5">
                                 <i data-lucide="bug" class="w-3.5 h-3.5"></i> Debug Game
                             </button>
-                            <button id="btn-polish" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-1.5">
+                            <button id="btn-polish" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-semibold rounded-xl border border-slate-700 flex items-center justify-center gap-1.5">
                                 <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Polish Title
                             </button>
                         </div>
-                        <button id="btn-publish" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                        <button id="btn-publish" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg flex items-center justify-center gap-2">
                             <i data-lucide="rocket" class="w-4 h-4"></i> Launch Game To Market
                         </button>
                     </div>
 
-                    <div id="active-dev-placeholder" class="py-12 flex flex-col items-center justify-center text-center border-2 border-dashed border-slate-800/80 rounded-xl">
+                    <div id="active-dev-placeholder" class="py-12 flex flex-col items-center justify-center text-center border-2 border-dashed border-slate-800 rounded-xl">
                         <i data-lucide="gamepad-2" class="w-10 h-10 text-slate-600 mb-2"></i>
                         <h3 class="text-sm font-semibold text-slate-300">No Project In Production</h3>
-                        <p class="text-xs text-slate-500 max-w-xs mt-1">Start a game to begin earning revenue, generating research points, and unlocking higher studio tiers.</p>
+                        <p class="text-xs text-slate-500 max-w-xs mt-1">Start a game to begin earning revenue and research points.</p>
                     </div>
                 </div>
 
@@ -176,7 +169,7 @@
                         <i data-lucide="library" class="w-4 h-4 text-indigo-400"></i> Published Games Catalog
                     </h3>
                     <div id="catalog-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <p class="text-xs text-slate-500 italic py-3 text-center">No games published yet in this cycle.</p>
+                        <p class="text-xs text-slate-500 italic py-3 text-center">No games published yet.</p>
                     </div>
                 </div>
             </section>
@@ -190,7 +183,7 @@
                         <span id="team-count" class="text-xs font-mono text-slate-400">1 / 3 Staff</span>
                     </div>
                     <div id="team-list" class="space-y-2 mb-3"></div>
-                    <button id="btn-hire-modal" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl border border-slate-700 transition-colors flex items-center justify-center gap-1.5">
+                    <button id="btn-hire-modal" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl border border-slate-700 flex items-center justify-center gap-1.5">
                         <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Hire Talent
                     </button>
                 </div>
@@ -200,7 +193,7 @@
                         <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i> Event Feed
                     </h3>
                     <div id="activity-log" class="text-[11px] font-mono space-y-1 text-slate-400 max-h-40 overflow-y-auto pr-1">
-                        <p class="text-slate-500">[System] Welcome to Byte Studio Hardcore Edition. Progression takes time and strategy!</p>
+                        <p class="text-slate-500">[System] Welcome to Byte Studio.</p>
                     </div>
                 </div>
             </section>
@@ -213,7 +206,7 @@
                         <h2 class="text-lg font-bold text-white flex items-center gap-2">
                             <i data-lucide="flask-conical" class="w-5 h-5 text-cyan-400"></i> Tech & Engine Research Tree
                         </h2>
-                        <p class="text-xs text-slate-400 mt-0.5">Spend RP to unlock new genres, engines, platforms, and automated workflow modules.</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Spend RP to unlock new genres, engines, and platforms.</p>
                     </div>
                     <div class="bg-cyan-950/60 border border-cyan-800/50 px-3 py-1.5 rounded-xl font-mono text-xs text-cyan-300">
                         RP Available: <span id="research-rp-display" class="font-bold">0</span>
@@ -228,7 +221,7 @@
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                     <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i> Hardware Rigs & Studio Buildings
                 </h2>
-                <p class="text-xs text-slate-400 mb-4">Buy server setups, high-performance GPUs, and bigger office space to expand development capacity.</p>
+                <p class="text-xs text-slate-400 mb-4">Upgrade hardware and office space to expand development capacity.</p>
                 <div id="upgrades-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </div>
@@ -238,7 +231,7 @@
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                     <i data-lucide="megaphone" class="w-5 h-5 text-purple-400"></i> Marketing Campaigns
                 </h2>
-                <p class="text-xs text-slate-400 mb-4">Run hype campaigns prior to publishing to boost release revenue.</p>
+                <p class="text-xs text-slate-400 mb-4">Run hype campaigns prior to publishing.</p>
                 <div id="marketing-campaigns-list" class="space-y-3"></div>
             </div>
 
@@ -246,7 +239,7 @@
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                     <i data-lucide="file-text" class="w-5 h-5 text-emerald-400"></i> Publisher Deals
                 </h2>
-                <p class="text-xs text-slate-400 mb-4">Sign contracts with publishers for funding in exchange for strict quality targets.</p>
+                <p class="text-xs text-slate-400 mb-4">Sign contracts with publishers for funding.</p>
                 <div id="publisher-contracts-list" class="space-y-3"></div>
             </div>
         </div>
@@ -256,22 +249,18 @@
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
                     <div>
                         <h2 class="text-xl font-extrabold text-amber-300 flex items-center gap-2">
-                            <i data-lucide="zap" class="w-6 h-6 text-amber-400"></i> The Byte Matrix (Hardcore Rebirth)
+                            <i data-lucide="zap" class="w-6 h-6 text-amber-400"></i> The Byte Matrix (Rebirth)
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">
-                            Requires at least **$500,000 Net Worth** to Rebirth. Resets cash, normal research, staff, and hardware in exchange for **Byte Bits**.
-                        </p>
+                        <p class="text-xs text-slate-400 mt-1">Requires at least $500,000 Net Worth to Rebirth for Byte Bits.</p>
                     </div>
-                    <button id="btn-trigger-prestige" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2">
+                    <button id="btn-trigger-prestige" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Rebirth For <span id="prestige-gain-display" class="font-mono">0 Bits</span>
                     </button>
                 </div>
-
-                <h3 class="text-sm font-bold text-white mb-3">Permanent Matrix Multipliers (Small Incremental Boosts)</h3>
+                <h3 class="text-sm font-bold text-white mb-3">Permanent Matrix Multipliers</h3>
                 <div id="prestige-upgrades-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
         </div>
-
     </main>
 
     <div id="modal-project" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -281,7 +270,7 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-300 mb-1">Game Title</label>
-                    <input type="text" id="input-game-title" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="e.g. Chronicles of Cyberia" />
+                    <input type="text" id="input-game-title" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="e.g. Chronicles" />
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -386,12 +375,10 @@
             { id: 'res_rpg', name: 'RPG Story Systems', costRP: 100, desc: 'Unlocks Retro RPG genre' },
             { id: 'res_sim', name: 'Physics Engine', costRP: 250, desc: 'Unlocks Simulation genre' },
             { id: 'res_strategy', name: 'AI Tactical Grid', costRP: 400, desc: 'Unlocks Strategy genre' },
-            { id: 'res_mobile', name: 'Mobile Framework', costRP: 350, desc: 'Unlocks Mobile App Store platform' },
+            { id: 'res_mobile', name: 'Mobile Framework', costRP: 350, desc: 'Unlocks Mobile platform' },
             { id: 'res_console', name: 'Console Dev Kits', costRP: 1000, desc: 'Unlocks Console platform' },
             { id: 'res_mmo', name: 'Cloud Server Architecture', costRP: 2500, desc: 'Unlocks MMORPG genre' },
-            { id: 'res_vr', name: 'Spatial Tracking Matrix', costRP: 5000, desc: 'Unlocks VR Headset platform' },
-            { id: 'res_auto_debug', name: 'Automated CI/CD Testing', costRP: 1500, desc: 'Reduces bug rate during development by 50%' },
-            { id: 'res_marketing_v2', name: 'Data-Driven Ad Targeting', costRP: 3000, desc: 'Unlocks Tier-2 Marketing Campaigns' }
+            { id: 'res_vr', name: 'Spatial Tracking Matrix', costRP: 5000, desc: 'Unlocks VR platform' }
         ];
 
         const UPGRADES_DB = [
@@ -400,107 +387,28 @@
             { id: 'audio_1', name: 'Acoustic Sound Booth', cost: 8000, desc: '+20% audio speed' },
             { id: 'office_2', name: 'Midtown Loft Studio', cost: 45000, desc: 'Expands staff limit to 5 developers' },
             { id: 'office_3', name: 'Downtown Tech Tower', cost: 250000, desc: 'Expands staff limit to 10 developers' },
-            { id: 'server_rack', name: 'In-House Blade Server', cost: 85000, desc: 'Generates passive RP automatically each month' }
+            { id: 'server_rack', name: 'In-House Blade Server', cost: 85000, desc: 'Generates passive RP each month' }
         ];
 
         const MATRIX_UPGRADES_DB = [
             { id: 'mat_speed', name: 'Neural Overclock', costBits: 1, desc: '+5% Dev Speed per level' },
-            { id: 'mat_rev', name: 'Market Mastery', costBits: 2, desc: '+8% Revenue on all game sales per level' },
-            { id: 'mat_rp', name: 'Cognitive Processing', costBits: 1, desc: '+15% Research Point generation per level' },
-            { id: 'mat_rep', name: 'Brand Prestige', costBits: 3, desc: '+0.2 Baseline Studio Reputation per level' }
+            { id: 'mat_rev', name: 'Market Mastery', costBits: 2, desc: '+8% Revenue per level' },
+            { id: 'mat_rp', name: 'Cognitive Processing', costBits: 1, desc: '+15% RP generation per level' },
+            { id: 'mat_rep', name: 'Brand Prestige', costBits: 3, desc: '+0.2 Baseline Reputation per level' }
         ];
 
         const CANDIDATES_DB = [
-            { id: 'c1', name: 'Alex Rivers', role: 'Junior Programmer', skill: 'code', speed: 1.2, salary: 500 },
-            { id: 'c2', name: 'Elena Rostova', role: '2D Pixel Artist', skill: 'art', speed: 1.2, salary: 550 },
+            { id: 'c1', name: 'Alex Rivers', role: 'Programmer', skill: 'code', speed: 1.2, salary: 500 },
+            { id: 'c2', name: 'Elena Rostova', role: 'Pixel Artist', skill: 'art', speed: 1.2, salary: 550 },
             { id: 'c3', name: 'Marcus Vance', role: 'Sound Engineer', skill: 'audio', speed: 1.2, salary: 520 },
-            { id: 'c4', name: 'Sora Takahashi', role: 'Senior Engine Architect', skill: 'code', speed: 2.8, salary: 2200 },
-            { id: 'c5', name: 'Diana Prince', role: 'Lead Art Director', skill: 'art', speed: 3.0, salary: 2500 },
-            { id: 'c6', name: 'Leo Sterling', role: 'Audio Maestro', skill: 'audio', speed: 2.5, salary: 1900 }
+            { id: 'c4', name: 'Sora Takahashi', role: 'Engine Architect', skill: 'code', speed: 2.8, salary: 2200 }
         ];
 
         const MARKETING_DB = [
             { id: 'mkt_social', name: 'Social Media Teasers', cost: 2500, hype: 1.15 },
-            { id: 'mkt_streamer', name: 'Sponsor Indie Streamers', cost: 12000, hype: 1.35 },
-            { id: 'mkt_convention', name: 'Gaming Expo Booth', cost: 45000, hype: 1.70 },
-            { id: 'mkt_tv', name: 'Global Commercial Blitz', cost: 150000, hype: 2.20 }
+            { id: 'mkt_streamer', name: 'Sponsor Streamers', cost: 12000, hype: 1.35 },
+            { id: 'mkt_convention', name: 'Gaming Expo Booth', cost: 45000, hype: 1.70 }
         ];
-        
-        const ENGINE_PARTS_DB = [
-            { id: 'physics_2d', name: '2D Physics Module', costRP: 100, bonus: 0.1 },
-            { id: 'physics_3d', name: '3D Vector Engine', costRP: 300, bonus: 0.25 },
-            { id: 'net_multi', name: 'Multiplayer Netcode', costRP: 600, bonus: 0.3 },
-            { id: 'ai_path', name: 'Advanced AI Navmesh', costRP: 400, bonus: 0.2 },
-            { id: 'audio_dsp', name: 'Spatial Audio DSP', costRP: 200, bonus: 0.15 }
-        ];
-        
-        if (!state.customEngines) state.customEngines = [];
-        if (!state.activePublishContract) state.activePublishContract = null;
-        
-        const PUBLISHER_CONTRACTS_DB = [
-            { 
-                id: 'pub_indie_1', 
-                name: 'PixelForge Publishing', 
-                advance: 15000, 
-                minScore: 6.0, 
-                share: 0.70, 
-                penalty: 10000,
-                desc: 'Provides $15,000 advance. Requires 6.0+ review score. Takes 30% revenue cut.' 
-            },
-            { 
-                id: 'pub_major_2', 
-                name: 'Apex Interactive', 
-                advance: 75000, 
-                minScore: 7.5, 
-                share: 0.55, 
-                penalty: 50000,
-                desc: 'Provides $75,000 advance. Requires 7.5+ review score. Takes 45% revenue cut.' 
-            },
-            { 
-                id: 'pub_global_3', 
-                name: 'Global MegaGames', 
-                advance: 300000, 
-                minScore: 8.5, 
-                share: 0.40, 
-                penalty: 200000,
-                desc: 'Massive $300,000 advance. Requires elite 8.5+ score or massive penalty!' 
-            }
-        ];
-        
-        function signPublisherContract(contractId) {
-            const contract = PUBLISHER_CONTRACTS_DB.find(c => c.id === contractId);
-            if (!contract) return;
-            
-            if (state.activePublishContract) {
-                return alert("You already have an active publisher contract!");
-            }
-
-            state.activePublishContract = contract;
-            state.cash += contract.advance;
-            logActivity(`Signed publishing contract with ${contract.name} for $${contract.advance.toLocaleString()} advance!`);
-            saveState();
-            renderAll();
-        }
-        
-        function createCustomEngine(engineName, selectedParts) {
-            if (!engineName) return alert("Enter an engine name!");
-    
-            let totalBonus = 1.0;
-            selectedParts.forEach(partId => {
-                const part = ENGINE_PARTS_DB.find(p => p.id === partId);
-                if (part) totalBonus += part.bonus;
-            });
-
-            state.customEngines.push({
-                name: engineName,
-                bonus: totalBonus,
-                parts: selectedParts
-            });
-            
-            logActivity(`Developed proprietary engine: "${engineName}" (Score Multiplier: +${Math.round((totalBonus-1)*100)}%)`);
-            saveState();
-            renderAll();
-        }
 
         function initApp() {
             loadState();
@@ -540,7 +448,7 @@
             });
 
             document.getElementById('btn-new-project').addEventListener('click', () => {
-                if (state.activeProject) return alert("Complete current game project first!");
+                if (state.activeProject) return alert("Complete current project first!");
                 populateGenrePlatformOptions();
                 document.getElementById('modal-project').classList.remove('hidden');
             });
@@ -562,11 +470,11 @@
                 };
                 document.getElementById('modal-project').classList.add('hidden');
                 AudioFX.play(800);
-                logActivity(`Started development of "${title}"`);
-                saveState(); renderAll();
+                logActivity("Started development of " + title);
+                saveState(); 
+                renderAll();
             });
 
-            // Interactive Actions
             document.getElementById('btn-crunch').addEventListener('click', () => {
                 if (!state.activeProject) return;
                 AudioFX.play(400);
@@ -577,9 +485,7 @@
                 state.activeProject.art = Math.min(250, state.activeProject.art + (10 * speedMult));
                 state.activeProject.audio = Math.min(250, state.activeProject.audio + (10 * speedMult));
 
-                let bugChance = state.unlockedResearch.includes('res_auto_debug') ? 0.2 : 0.45;
-                if (Math.random() < bugChance) state.activeProject.bugs += 1;
-
+                if (Math.random() < 0.45) state.activeProject.bugs += 1;
                 renderAll();
             });
 
@@ -609,30 +515,25 @@
                 publishGame();
             });
 
-            // Hire Modal Trigger
             document.getElementById('btn-hire-modal').addEventListener('click', () => {
                 renderHireList();
                 document.getElementById('modal-hire').classList.remove('hidden');
             });
 
-            // Close Review
             document.getElementById('btn-close-review').addEventListener('click', () => {
                 document.getElementById('modal-review').classList.add('hidden');
             });
 
-            // Rebirth / Prestige Actions
             document.getElementById('btn-trigger-prestige').addEventListener('click', triggerPrestige);
             document.getElementById('btn-prestige-open').addEventListener('click', () => {
                 document.querySelector('[data-tab="tab-prestige"]').click();
             });
         }
 
-        // --- MAIN ENGINE LOOP ---
         function startMainLoop() {
             setInterval(() => {
                 state.monthTick++;
 
-                // Passive Staff Output
                 if (state.activeProject) {
                     let speedMult = 1.0 + ((state.matrixUpgrades['mat_speed'] || 0) * 0.05);
                     state.hiredStaff.forEach(s => {
@@ -642,13 +543,11 @@
                     });
                 }
 
-                // Passive Hardware Server RP Generation
                 if (state.purchasedUpgrades.includes('server_rack')) {
                     let rpMult = 1.0 + ((state.matrixUpgrades['mat_rp'] || 0) * 0.15);
                     state.rp += Math.floor(5 * rpMult);
                 }
 
-                // Long-Tail Sales Revenue Decay
                 let passiveSales = 0;
                 let revMult = 1.0 + ((state.matrixUpgrades['mat_rev'] || 0) * 0.08);
                 state.releasedGames.forEach(g => {
@@ -656,8 +555,7 @@
                     if (monthly > 10) passiveSales += monthly;
                 });
 
-                // Expenses
-                let salaries = 300; // Base overhead
+                let salaries = 300;
                 state.hiredStaff.forEach(s => salaries += s.salary);
 
                 state.cash += (passiveSales - salaries);
@@ -667,55 +565,43 @@
             }, 3000);
         }
 
-        // --- CORE LOGIC & PUBLISHING ---
         function publishGame() {
             const p = state.activeProject;
             if (!p) return;
 
-            // Score Calculation
             let completionRatio = (p.code + p.art + p.audio) / 750;
             let bugPenalty = p.bugs * 0.5;
             let score = (completionRatio * 7.0) + (p.quality * 0.15) - bugPenalty;
             score = Math.min(10.0, Math.max(1.0, score)).toFixed(1);
 
-            // Revenue Math (Strict Scaling)
             let revMult = 1.0 + ((state.matrixUpgrades['mat_rev'] || 0) * 0.08);
             let baseRevenue = Math.floor(12000 * Math.pow(parseFloat(score) / 4.5, 2.5) * state.reputation * state.hypeMultiplier * revMult);
 
             state.cash += baseRevenue;
             state.reputation = Math.min(5.0, Math.max(0.5, parseFloat(state.reputation) + (score >= 7.5 ? 0.15 : -0.2))).toFixed(1);
-            state.hypeMultiplier = 1.0; // Reset Hype Campaign
+            state.hypeMultiplier = 1.0;
 
             state.releasedGames.unshift({
                 title: p.title, genre: p.genre, platform: p.platform, score, revenue: baseRevenue, releaseMonth: state.monthTick
             });
 
             document.getElementById('review-game-title').innerText = p.title;
-            document.getElementById('review-game-meta').innerText = `${p.genre} • ${p.platform}`;
-            document.getElementById('review-score').innerText = `${score} / 10`;
-            document.getElementById('review-revenue').innerText = `+$${baseRevenue.toLocaleString()}`;
-            document.getElementById('review-quote').innerText = score >= 8.5 
-                ? '"An unbelievable hit that redefines the genre!"' 
-                : score >= 6.0 
-                ? '"Solid mechanics and decent execution."' 
-                : '"Plagued by bugs and lack of polish."';
+            document.getElementById('review-game-meta').innerText = p.genre + " • " + p.platform;
+            document.getElementById('review-score').innerText = score + " / 10";
+            document.getElementById('review-revenue').innerText = "+$" + baseRevenue.toLocaleString();
+            document.getElementById('review-quote').innerText = score >= 8.5 ? '"An unbelievable masterpiece!"' : '"Solid mechanics and decent execution."';
 
             document.getElementById('modal-review').classList.remove('hidden');
-            logActivity(`Launched "${p.title}" | Score: ${score}/10, Revenue: $${baseRevenue.toLocaleString()}`);
+            logActivity("Launched " + p.title + " | Score: " + score + "/10");
 
             state.activeProject = null;
-            saveState(); renderAll();
+            saveState(); 
+            renderAll();
         }
 
-        // --- STRICT REBIRTH MATH ---
         function calculatePrestigeBits() {
-            // Net Worth calculation
             let netWorth = state.cash + (state.releasedGames.length * 10000);
-            
-            // Rebirth Threshold: Must have at least $500,000 Net Worth!
             if (netWorth < 500000) return 0;
-            
-            // Hardcore Diminishing Returns Formula
             return Math.floor(Math.pow(netWorth / 500000, 0.5));
         }
 
@@ -725,7 +611,7 @@
                 return alert("Rebirth Lock: You need at least $500,000 Net Worth to Rebirth!");
             }
 
-            if (confirm(`Perform Rebirth? You will gain ${bitsGained} Byte Bits. Cash, regular research, staff, and office upgrades will reset!`)) {
+            if (confirm("Perform Rebirth? Gain " + bitsGained + " Byte Bits. Cash, research, staff, and office upgrades will reset!")) {
                 state.bits += bitsGained;
                 state.cash = 10000;
                 state.rp = 0;
@@ -736,19 +622,20 @@
                 state.purchasedUpgrades = [];
                 state.unlockedResearch = ['genre_action', 'plat_pc'];
 
-                logActivity(`REBIRTH COMPLETED! Awarded ${bitsGained} Byte Bits.`);
-                saveState(); renderAll();
+                logActivity("REBIRTH COMPLETED! Awarded " + bitsGained + " Byte Bits.");
+                saveState(); 
+                renderAll();
             }
         }
 
-        // --- SHOP ACTIONS ---
         function buyResearch(id) {
             const res = RESEARCH_DB.find(r => r.id === id);
             if (!res || state.rp < res.costRP) return alert("Insufficient Research Points!");
             state.rp -= res.costRP;
             state.unlockedResearch.push(id);
-            logActivity(`Unlocked Research: ${res.name}`);
-            saveState(); renderAll();
+            logActivity("Unlocked Research: " + res.name);
+            saveState(); 
+            renderAll();
         }
 
         function buyUpgrade(id) {
@@ -756,8 +643,9 @@
             if (!upg || state.cash < upg.cost) return alert("Insufficient studio funds!");
             state.cash -= upg.cost;
             state.purchasedUpgrades.push(id);
-            logActivity(`Purchased Hardware/Office: ${upg.name}`);
-            saveState(); renderAll();
+            logActivity("Purchased: " + upg.name);
+            saveState(); 
+            renderAll();
         }
 
         function buyMatrixUpgrade(id) {
@@ -765,8 +653,9 @@
             if (!m || state.bits < m.costBits) return alert("Insufficient Byte Bits!");
             state.bits -= m.costBits;
             state.matrixUpgrades[id] = (state.matrixUpgrades[id] || 0) + 1;
-            logActivity(`Upgraded Byte Matrix: ${m.name} (Lvl ${state.matrixUpgrades[id]})`);
-            saveState(); renderAll();
+            logActivity("Upgraded Matrix: " + m.name);
+            saveState(); 
+            renderAll();
         }
 
         function buyMarketing(id) {
@@ -774,36 +663,35 @@
             if (!mkt || state.cash < mkt.cost) return alert("Insufficient cash!");
             state.cash -= mkt.cost;
             state.hypeMultiplier *= mkt.hype;
-            logActivity(`Marketing Campaign Active: ${mkt.name}`);
-            saveState(); renderAll();
+            logActivity("Marketing Active: " + mkt.name);
+            saveState(); 
+            renderAll();
         }
 
         function hireCandidate(id) {
             const cand = CANDIDATES_DB.find(c => c.id === id);
             if (!cand) return;
-            
             let limit = 3;
             if (state.purchasedUpgrades.includes('office_2')) limit = 5;
             if (state.purchasedUpgrades.includes('office_3')) limit = 10;
 
-            if (state.hiredStaff.length + 1 >= limit) return alert("Office capacity full! Upgrade your office building.");
+            if (state.hiredStaff.length + 1 >= limit) return alert("Office capacity full!");
 
             state.hiredStaff.push(cand);
-            logActivity(`Hired Developer: ${cand.name}`);
+            logActivity("Hired Developer: " + cand.name);
             document.getElementById('modal-hire').classList.add('hidden');
-            saveState(); renderAll();
+            saveState(); 
+            renderAll();
         }
 
-        // --- UI RENDERING ---
         function renderAll() {
-            document.getElementById('stat-cash').innerText = `$${Math.floor(state.cash).toLocaleString()}`;
-            document.getElementById('stat-rp').innerText = `${state.rp} RP`;
-            document.getElementById('stat-bits').innerText = `${state.bits} Bits`;
+            document.getElementById('stat-cash').innerText = "$" + Math.floor(state.cash).toLocaleString();
+            document.getElementById('stat-rp').innerText = state.rp + " RP";
+            document.getElementById('stat-bits').innerText = state.bits + " Bits";
             document.getElementById('stat-rep').innerText = state.reputation;
             document.getElementById('research-rp-display').innerText = state.rp;
-            document.getElementById('prestige-gain-display').innerText = `${calculatePrestigeBits()} Bits`;
+            document.getElementById('prestige-gain-display').innerText = calculatePrestigeBits() + " Bits";
 
-            // Active Project Render
             const p = state.activeProject;
             if (p) {
                 document.getElementById('active-dev-container').classList.remove('hidden');
@@ -818,18 +706,17 @@
                 let aPct = (p.art / 250) * 100;
                 let auPct = (p.audio / 250) * 100;
 
-                document.getElementById('progress-code-bar').style.width = `${cPct}%`;
-                document.getElementById('progress-code-text').innerText = `${Math.floor(p.code)} / 250`;
-                document.getElementById('progress-art-bar').style.width = `${aPct}%`;
-                document.getElementById('progress-art-text').innerText = `${Math.floor(p.art)} / 250`;
-                document.getElementById('progress-audio-bar').style.width = `${auPct}%`;
-                document.getElementById('progress-audio-text').innerText = `${Math.floor(p.audio)} / 250`;
+                document.getElementById('progress-code-bar').style.width = cPct + "%";
+                document.getElementById('progress-code-text').innerText = Math.floor(p.code) + " / 250";
+                document.getElementById('progress-art-bar').style.width = aPct + "%";
+                document.getElementById('progress-art-text').innerText = Math.floor(p.art) + " / 250";
+                document.getElementById('progress-audio-bar').style.width = auPct + "%";
+                document.getElementById('progress-audio-text').innerText = Math.floor(p.audio) + " / 250";
             } else {
                 document.getElementById('active-dev-container').classList.add('hidden');
                 document.getElementById('active-dev-placeholder').classList.remove('hidden');
             }
 
-            // Catalog Render
             const catalogList = document.getElementById('catalog-list');
             if (state.releasedGames.length > 0) {
                 catalogList.innerHTML = state.releasedGames.map(g => `
@@ -840,11 +727,10 @@
                 `).join('');
             }
 
-            // Staff Render
             let staffLimit = 3;
             if (state.purchasedUpgrades.includes('office_2')) staffLimit = 5;
             if (state.purchasedUpgrades.includes('office_3')) staffLimit = 10;
-            document.getElementById('team-count').innerText = `${state.hiredStaff.length + 1} / ${staffLimit} Staff`;
+            document.getElementById('team-count').innerText = (state.hiredStaff.length + 1) + " / " + staffLimit + " Staff";
 
             document.getElementById('team-list').innerHTML = `
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 text-xs flex justify-between items-center">
@@ -858,7 +744,6 @@
                 </div>
             `).join('');
 
-            // Research Tree Render
             document.getElementById('research-tree-grid').innerHTML = RESEARCH_DB.map(r => {
                 const unlocked = state.unlockedResearch.includes(r.id);
                 return `
