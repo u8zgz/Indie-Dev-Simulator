@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte Studio - Deep Simulator</title>
+    <title>Byte Studio - Hardcore Simulator</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -15,7 +15,7 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(71, 85, 105, 1); }
         
         .glass-panel {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -39,12 +39,12 @@
                 <h1 class="font-bold text-lg leading-none tracking-wide text-white flex items-center gap-2">
                     BYTE STUDIO <span id="display-studio-tier" class="text-[10px] px-2 py-0.5 bg-indigo-500/10 text-indigo-400 rounded border border-indigo-500/20 font-mono">Tier 1 Studio</span>
                 </h1>
-                <p class="text-xs text-slate-400 mt-0.5">Game Dev & Prestige Simulator</p>
+                <p class="text-xs text-slate-400 mt-0.5">Long-Run Game Dev Simulator</p>
             </div>
         </div>
 
         <!-- Stats Bar -->
-        <div class="flex items-center gap-4 sm:gap-6 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 text-xs sm:text-sm">
+        <div class="flex items-center gap-3 sm:gap-5 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 text-xs sm:text-sm">
             <div class="flex items-center gap-1.5" title="Studio Cash">
                 <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-400"></i>
                 <span id="stat-cash" class="font-mono font-bold text-emerald-400">$10,000</span>
@@ -55,7 +55,7 @@
                 <span id="stat-rp" class="font-mono font-bold text-cyan-300">0 RP</span>
             </div>
             <div class="h-4 w-px bg-slate-800"></div>
-            <div class="flex items-center gap-1.5" title="Prestige Bits">
+            <div class="flex items-center gap-1.5" title="Prestige Byte Bits">
                 <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
                 <span id="stat-bits" class="font-mono font-bold text-amber-300">0 Bits</span>
             </div>
@@ -86,13 +86,13 @@
                 <i data-lucide="gamepad-2" class="w-4 h-4"></i> Development
             </button>
             <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-research">
-                <i data-lucide="flask-conical" class="w-4 h-4"></i> Research Tree
+                <i data-lucide="flask-conical" class="w-4 h-4"></i> Tech Tree
             </button>
             <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-upgrades">
-                <i data-lucide="cpu" class="w-4 h-4"></i> Office & Hardware
+                <i data-lucide="cpu" class="w-4 h-4"></i> Hardware & Studio
             </button>
             <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-marketing">
-                <i data-lucide="megaphone" class="w-4 h-4"></i> Marketing & Publishers
+                <i data-lucide="megaphone" class="w-4 h-4"></i> Marketing & Deals
             </button>
             <button class="tab-btn px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-amber-400 hover:text-amber-300 transition-all flex items-center gap-2" data-tab="tab-prestige">
                 <i data-lucide="zap" class="w-4 h-4"></i> Byte Matrix (Prestige)
@@ -101,22 +101,20 @@
 
         <!-- TAB 1: DEVELOPMENT -->
         <div id="tab-dev" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Active Project & Controls -->
             <section class="lg:col-span-2 space-y-6">
                 <div class="glass-panel rounded-2xl p-6 relative">
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                                Active Game Studio <span id="project-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">Idle</span>
+                                Studio Operations <span id="project-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">Idle</span>
                             </h2>
-                            <p class="text-xs text-slate-400 mt-1">Design, crunch, research, and ship high-rating titles</p>
+                            <p class="text-xs text-slate-400 mt-1">Develop titles, fix game-breaking bugs, and earn market traction</p>
                         </div>
                         <button id="btn-new-project" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs rounded-xl transition-all shadow-lg flex items-center gap-1.5">
-                            <i data-lucide="plus-circle" class="w-4 h-4"></i> Start Game
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i> Start New Game
                         </button>
                     </div>
 
-                    <!-- Dev Active Progress -->
                     <div id="active-dev-container" class="hidden space-y-5 pt-2">
                         <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
                             <div>
@@ -133,75 +131,70 @@
                         <div class="space-y-3">
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-300 font-medium"><i data-lucide="code-2" class="w-3.5 h-3.5 inline text-blue-400 mr-1"></i> Engine & Code</span>
-                                    <span id="progress-code-text" class="font-mono text-slate-400">0%</span>
+                                    <span class="text-slate-300 font-medium"><i data-lucide="code-2" class="w-3.5 h-3.5 inline text-blue-400 mr-1"></i> Code & Engine</span>
+                                    <span id="progress-code-text" class="font-mono text-slate-400">0 / 250</span>
                                 </div>
                                 <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-code-bar" class="bg-blue-500 h-full w-0 transition-all"></div></div>
                             </div>
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-300 font-medium"><i data-lucide="palette" class="w-3.5 h-3.5 inline text-purple-400 mr-1"></i> Graphics & Art</span>
-                                    <span id="progress-art-text" class="font-mono text-slate-400">0%</span>
+                                    <span class="text-slate-300 font-medium"><i data-lucide="palette" class="w-3.5 h-3.5 inline text-purple-400 mr-1"></i> Graphics & Visuals</span>
+                                    <span id="progress-art-text" class="font-mono text-slate-400">0 / 250</span>
                                 </div>
                                 <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-art-bar" class="bg-purple-500 h-full w-0 transition-all"></div></div>
                             </div>
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-300 font-medium"><i data-lucide="music" class="w-3.5 h-3.5 inline text-amber-400 mr-1"></i> Sound & Audio</span>
-                                    <span id="progress-audio-text" class="font-mono text-slate-400">0%</span>
+                                    <span class="text-slate-300 font-medium"><i data-lucide="music" class="w-3.5 h-3.5 inline text-amber-400 mr-1"></i> Audio & SFX</span>
+                                    <span id="progress-audio-text" class="font-mono text-slate-400">0 / 250</span>
                                 </div>
                                 <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden"><div id="progress-audio-bar" class="bg-amber-500 h-full w-0 transition-all"></div></div>
                             </div>
                         </div>
 
-                        <!-- Interactive Dev Buttons -->
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
                             <button id="btn-crunch" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5">
-                                <i data-lucide="zap" class="w-3.5 h-3.5"></i> Crunch
+                                <i data-lucide="zap" class="w-3.5 h-3.5"></i> Crunch Work
                             </button>
                             <button id="btn-generate-rp" class="px-3 py-2 bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-800/50 text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5">
-                                <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i> Research
+                                <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i> Research RP
                             </button>
                             <button id="btn-fix-bugs" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-rose-300 text-xs font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-1.5">
-                                <i data-lucide="bug" class="w-3.5 h-3.5"></i> Debug
+                                <i data-lucide="bug" class="w-3.5 h-3.5"></i> Debug Game
                             </button>
                             <button id="btn-polish" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-semibold rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-1.5">
-                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Polish
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Polish Title
                             </button>
                         </div>
                         <button id="btn-publish" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
-                            <i data-lucide="rocket" class="w-4 h-4"></i> Release Game To Market
+                            <i data-lucide="rocket" class="w-4 h-4"></i> Launch Game To Market
                         </button>
                     </div>
 
-                    <!-- Placeholder -->
                     <div id="active-dev-placeholder" class="py-12 flex flex-col items-center justify-center text-center border-2 border-dashed border-slate-800/80 rounded-xl">
                         <i data-lucide="gamepad-2" class="w-10 h-10 text-slate-600 mb-2"></i>
-                        <h3 class="text-sm font-semibold text-slate-300">No Active Project</h3>
-                        <p class="text-xs text-slate-500 max-w-xs mt-1">Start a new game project to begin coding, generating research points, and earning revenue.</p>
+                        <h3 class="text-sm font-semibold text-slate-300">No Project In Production</h3>
+                        <p class="text-xs text-slate-500 max-w-xs mt-1">Start a game to begin earning revenue, generating research points, and unlocking higher studio tiers.</p>
                     </div>
                 </div>
 
-                <!-- Portfolio -->
                 <div class="glass-panel rounded-2xl p-6">
                     <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
-                        <i data-lucide="library" class="w-4 h-4 text-indigo-400"></i> Released Catalog
+                        <i data-lucide="library" class="w-4 h-4 text-indigo-400"></i> Published Games Catalog
                     </h3>
                     <div id="catalog-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <p class="text-xs text-slate-500 italic py-3 text-center">No titles published in this rebirth cycle.</p>
+                        <p class="text-xs text-slate-500 italic py-3 text-center">No games published yet in this cycle.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Right Side: Staff & Log -->
             <section class="space-y-6">
-                <!-- Staff -->
                 <div class="glass-panel rounded-2xl p-5">
                     <div class="flex justify-between items-center mb-3">
                         <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i> Active Team
+                            <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i> Studio Developers
                         </h3>
-                        <span id="team-count" class="text-xs font-mono text-slate-400">1 / 4 Staff</span>
+                        <span id="team-count" class="text-xs font-mono text-slate-400">1 / 3 Staff</span>
                     </div>
                     <div id="team-list" class="space-y-2 mb-3"></div>
                     <button id="btn-hire-modal" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl border border-slate-700 transition-colors flex items-center justify-center gap-1.5">
@@ -209,13 +202,12 @@
                     </button>
                 </div>
 
-                <!-- Log -->
                 <div class="glass-panel rounded-2xl p-4">
                     <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                        <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i> Studio Feed
+                        <i data-lucide="activity" class="w-3.5 h-3.5 text-indigo-400"></i> Event Feed
                     </h3>
                     <div id="activity-log" class="text-[11px] font-mono space-y-1 text-slate-400 max-h-40 overflow-y-auto pr-1">
-                        <p class="text-slate-500">[System] Studio initialized. Start your tech empire!</p>
+                        <p class="text-slate-500">[System] Welcome to Byte Studio Hardcore Edition. Progression takes time and strategy!</p>
                     </div>
                 </div>
             </section>
@@ -227,12 +219,12 @@
                 <div class="flex justify-between items-center mb-4">
                     <div>
                         <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i data-lucide="flask-conical" class="w-5 h-5 text-cyan-400"></i> Engine & Tech Research Tree
+                            <i data-lucide="flask-conical" class="w-5 h-5 text-cyan-400"></i> Tech & Engine Research Tree
                         </h2>
-                        <p class="text-xs text-slate-400 mt-0.5">Spend RP earned during development to unlock new mechanics, platforms, and features.</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Spend RP to unlock new genres, engines, platforms, and automated workflow modules.</p>
                     </div>
                     <div class="bg-cyan-950/60 border border-cyan-800/50 px-3 py-1.5 rounded-xl font-mono text-xs text-cyan-300">
-                        RP: <span id="research-rp-display" class="font-bold">0</span>
+                        RP Available: <span id="research-rp-display" class="font-bold">0</span>
                     </div>
                 </div>
                 <div id="research-tree-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -243,9 +235,9 @@
         <div id="tab-upgrades" class="tab-content hidden space-y-6">
             <div class="glass-panel rounded-2xl p-6">
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                    <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i> Office & Workstation Hardware
+                    <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i> Hardware Rigs & Studio Buildings
                 </h2>
-                <p class="text-xs text-slate-400 mb-4">Upgrade hardware, servers, and office infrastructure to multiply dev speed and capacity.</p>
+                <p class="text-xs text-slate-400 mb-4">Buy server setups, high-performance GPUs, and bigger office space to expand development capacity.</p>
                 <div id="upgrades-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </div>
@@ -254,9 +246,9 @@
         <div id="tab-marketing" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="glass-panel rounded-2xl p-6">
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                    <i data-lucide="megaphone" class="w-5 h-5 text-purple-400"></i> Ad Campaigns
+                    <i data-lucide="megaphone" class="w-5 h-5 text-purple-400"></i> Marketing Campaigns
                 </h2>
-                <p class="text-xs text-slate-400 mb-4">Boost studio hype to increase initial game release sales.</p>
+                <p class="text-xs text-slate-400 mb-4">Run hype campaigns prior to publishing to boost release revenue.</p>
                 <div id="marketing-campaigns-list" class="space-y-3"></div>
             </div>
 
@@ -264,7 +256,7 @@
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
                     <i data-lucide="file-text" class="w-5 h-5 text-emerald-400"></i> Publisher Deals
                 </h2>
-                <p class="text-xs text-slate-400 mb-4">Sign contracts with major publishers for up-front cash bonuses and quality targets.</p>
+                <p class="text-xs text-slate-400 mb-4">Sign contracts with publishers for funding in exchange for strict quality targets.</p>
                 <div id="publisher-contracts-list" class="space-y-3"></div>
             </div>
         </div>
@@ -275,33 +267,33 @@
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
                     <div>
                         <h2 class="text-xl font-extrabold text-amber-300 flex items-center gap-2">
-                            <i data-lucide="zap" class="w-6 h-6 text-amber-400"></i> The Byte Matrix (Prestige / Rebirth)
+                            <i data-lucide="zap" class="w-6 h-6 text-amber-400"></i> The Byte Matrix (Hardcore Rebirth)
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">Selling your studio resets cash, staff, and non-prestige research, but awards **Byte Bits** to buy permanent Matrix Upgrades.</p>
+                        <p class="text-xs text-slate-400 mt-1">
+                            Requires at least **$500,000 Net Worth** to Rebirth. Resets cash, normal research, staff, and hardware in exchange for **Byte Bits**.
+                        </p>
                     </div>
                     <button id="btn-trigger-prestige" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center gap-2">
-                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Sell Studio For <span id="prestige-gain-display" class="font-mono">0 Bits</span>
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Rebirth For <span id="prestige-gain-display" class="font-mono">0 Bits</span>
                     </button>
                 </div>
 
-                <!-- Matrix Upgrades Tree -->
-                <h3 class="text-sm font-bold text-white mb-3">Permanent Matrix Multipliers</h3>
+                <h3 class="text-sm font-bold text-white mb-3">Permanent Matrix Multipliers (Small Incremental Boosts)</h3>
                 <div id="prestige-upgrades-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </div>
         </div>
 
     </main>
 
-    <!-- MODAL: Start New Project -->
+    <!-- MODALS -->
     <div id="modal-project" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-slate-800 relative">
             <button class="modal-close absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i> Design New Game Project</h3>
-            
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="sparkles" class="w-5 h-5 text-indigo-400"></i> New Game Setup</h3>
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-medium text-slate-300 mb-1">Game Title</label>
-                    <input type="text" id="input-game-title" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="e.g. Cyber Realm" />
+                    <input type="text" id="input-game-title" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="e.g. Chronicles of Cyberia" />
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -313,57 +305,63 @@
                         <select id="select-game-platform" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200"></select>
                     </div>
                 </div>
-
                 <div class="pt-2 flex justify-end gap-2">
                     <button class="modal-close px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-xl font-medium">Cancel</button>
-                    <button id="btn-start-dev-confirm" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg">Start Development</button>
+                    <button id="btn-start-dev-confirm" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl shadow-lg">Start Project</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: Hire Candidates -->
     <div id="modal-hire" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-800 relative">
             <button class="modal-close absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="user-plus" class="w-5 h-5 text-indigo-400"></i> Recruit Developers</h3>
+            <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="user-plus" class="w-5 h-5 text-indigo-400"></i> Developer Market</h3>
             <div id="hire-candidates-list" class="space-y-3 max-h-80 overflow-y-auto pr-1"></div>
         </div>
     </div>
 
-    <!-- MODAL: Review Summary -->
     <div id="modal-review" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-slate-800 relative text-center">
             <h2 id="review-game-title" class="text-2xl font-black text-white">Title</h2>
             <p id="review-game-meta" class="text-xs text-slate-400 mt-0.5">Genre • Platform</p>
             <div class="my-6 p-4 bg-slate-900 rounded-xl border border-slate-800 flex justify-around">
-                <div><span class="text-xs text-slate-400 block">Rating</span><span id="review-score" class="text-3xl font-black text-amber-400">8.5</span></div>
-                <div><span class="text-xs text-slate-400 block">Revenue</span><span id="review-revenue" class="text-2xl font-mono font-bold text-emerald-400">+$12,500</span></div>
+                <div><span class="text-xs text-slate-400 block">Rating</span><span id="review-score" class="text-3xl font-black text-amber-400">7.2</span></div>
+                <div><span class="text-xs text-slate-400 block">Initial Revenue</span><span id="review-revenue" class="text-2xl font-mono font-bold text-emerald-400">+$8,500</span></div>
             </div>
-            <p id="review-quote" class="text-xs italic text-slate-300 bg-slate-900/50 p-3 rounded-xl border border-slate-800 mb-6">"Review quote"</p>
-            <button id="btn-close-review" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg">Collect Revenue & Continue</button>
+            <p id="review-quote" class="text-xs italic text-slate-300 bg-slate-900/50 p-3 rounded-xl border border-slate-800 mb-6">"Review text"</p>
+            <button id="btn-close-review" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg">Collect Revenue</button>
         </div>
     </div>
 
+<!-- PART 2: AUDIO SYNTH & EXPANDED GAME ENGINE -->
     <script>
-        // --- Web Audio Synth ---
+        // --- Web Audio API Synthesizer ---
         const AudioFX = {
-            ctx: null, enabled: true,
-            init() { if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+            ctx: null, 
+            enabled: true,
+            init() { 
+                if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)(); 
+                }
+            },
             play(freq, type='sine', duration=0.08) {
                 if (!this.enabled || !this.ctx) return;
                 try {
                     const o = this.ctx.createOscillator(), g = this.ctx.createGain();
-                    o.type = type; o.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    o.type = type; 
+                    o.frequency.setValueAtTime(freq, this.ctx.currentTime);
                     g.gain.setValueAtTime(0.08, this.ctx.currentTime);
                     g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-                    o.connect(g); g.connect(this.ctx.destination);
-                    o.start(); o.stop(this.ctx.currentTime + duration);
+                    o.connect(g); 
+                    g.connect(this.ctx.destination);
+                    o.start(); 
+                    o.stop(this.ctx.currentTime + duration);
                 } catch(e){}
             }
         };
 
-        // --- GAME DATA STRUCTURES ---
+        // --- HARDCORE BALANCED GAME DATA ---
         const DEFAULT_STATE = {
             cash: 10000,
             rp: 0,
@@ -382,56 +380,75 @@
 
         let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
 
+        // Rebalanced Genres with Research Requirements
         const GENRES_DB = [
-            { id: 'genre_action', name: 'Action Platformer', reqResearch: null },
+            { id: 'genre_action', name: '2D Action Platformer', reqResearch: null },
+            { id: 'genre_puzzle', name: 'Logic Puzzle', reqResearch: null },
             { id: 'genre_rpg', name: 'Retro RPG', reqResearch: 'res_rpg' },
-            { id: 'genre_sim', name: 'Simulator', reqResearch: 'res_sim' },
-            { id: 'genre_mmo', name: 'MMORPG', reqResearch: 'res_mmo' }
+            { id: 'genre_sim', name: 'Simulation', reqResearch: 'res_sim' },
+            { id: 'genre_strategy', name: 'Turn-Based Strategy', reqResearch: 'res_strategy' },
+            { id: 'genre_mmo', name: 'MMORPG Empire', reqResearch: 'res_mmo' }
         ];
 
+        // Platforms
         const PLATFORMS_DB = [
             { id: 'plat_pc', name: 'PC Steam', reqResearch: null },
-            { id: 'plat_mobile', name: 'Mobile', reqResearch: 'res_mobile' },
+            { id: 'plat_web', name: 'Web Browser', reqResearch: null },
+            { id: 'plat_mobile', name: 'Mobile App Store', reqResearch: 'res_mobile' },
             { id: 'plat_console', name: 'Next-Gen Console', reqResearch: 'res_console' },
             { id: 'plat_vr', name: 'VR Headset', reqResearch: 'res_vr' }
         ];
 
+        // Extended Tech Research Tree
         const RESEARCH_DB = [
-            { id: 'res_rpg', name: 'RPG Quest Systems', costRP: 50, desc: 'Unlocks RPG genre' },
-            { id: 'res_sim', name: 'Physics Engine', costRP: 150, desc: 'Unlocks Simulator genre' },
-            { id: 'res_mobile', name: 'Mobile Porting Framework', costRP: 200, desc: 'Unlocks Mobile target platform' },
-            { id: 'res_console', name: 'Console Dev Kits', costRP: 500, desc: 'Unlocks Console platform' },
-            { id: 'res_mmo', name: 'Cloud Networking Architecture', costRP: 1200, desc: 'Unlocks MMORPG genre' },
-            { id: 'res_vr', name: 'Spatial Tracking Matrix', costRP: 2500, desc: 'Unlocks VR Headset platform' }
+            { id: 'res_rpg', name: 'RPG Story Systems', costRP: 100, desc: 'Unlocks Retro RPG genre' },
+            { id: 'res_sim', name: 'Physics Engine', costRP: 250, desc: 'Unlocks Simulation genre' },
+            { id: 'res_strategy', name: 'AI Tactical Grid', costRP: 400, desc: 'Unlocks Strategy genre' },
+            { id: 'res_mobile', name: 'Mobile Framework', costRP: 350, desc: 'Unlocks Mobile App Store platform' },
+            { id: 'res_console', name: 'Console Dev Kits', costRP: 1000, desc: 'Unlocks Console platform' },
+            { id: 'res_mmo', name: 'Cloud Server Architecture', costRP: 2500, desc: 'Unlocks MMORPG genre' },
+            { id: 'res_vr', name: 'Spatial Tracking Matrix', costRP: 5000, desc: 'Unlocks VR Headset platform' },
+            { id: 'res_auto_debug', name: 'Automated CI/CD Testing', costRP: 1500, desc: 'Reduces bug rate during development by 50%' },
+            { id: 'res_marketing_v2', name: 'Data-Driven Ad Targeting', costRP: 3000, desc: 'Unlocks Tier-2 Marketing Campaigns' }
         ];
 
+        // Hardware & Office Upgrades
         const UPGRADES_DB = [
-            { id: 'cpu_1', name: 'Quad-Core Workstation', cost: 2000, speedBoost: 1.2, desc: '+20% coding speed' },
-            { id: 'gpu_1', name: 'Render Accelerator', cost: 4500, speedBoost: 1.3, desc: '+30% graphics production speed' },
-            { id: 'audio_1', name: 'Acoustic Sound Lab', cost: 3500, speedBoost: 1.3, desc: '+30% audio speed' },
-            { id: 'office_2', name: 'Midtown Loft Office', cost: 15000, capacity: 6, desc: 'Expand team limit to 6 staff' }
+            { id: 'cpu_1', name: 'Quad-Core Workstations', cost: 5000, desc: '+15% coding speed' },
+            { id: 'gpu_1', name: 'Render Accelerators', cost: 12000, desc: '+20% graphics speed' },
+            { id: 'audio_1', name: 'Acoustic Sound Booth', cost: 8000, desc: '+20% audio speed' },
+            { id: 'office_2', name: 'Midtown Loft Studio', cost: 45000, desc: 'Expands staff limit to 5 developers' },
+            { id: 'office_3', name: 'Downtown Tech Tower', cost: 250000, desc: 'Expands staff limit to 10 developers' },
+            { id: 'server_rack', name: 'In-House Blade Server', cost: 85000, desc: 'Generates passive RP automatically each month' }
         ];
 
+        // Rebalanced Hardcore Matrix Upgrades (Small, Long-Term Gains)
         const MATRIX_UPGRADES_DB = [
-            { id: 'mat_speed', name: 'Neural Processing', costBits: 1, desc: 'Permanent +25% Dev Speed per level' },
-            { id: 'mat_rev', name: 'Market Monopoly', costBits: 2, desc: 'Permanent +50% Game Sales Revenue per level' },
-            { id: 'mat_rp', name: 'Quantum Brain', costBits: 1, desc: 'Permanent +100% Research Point generation' }
+            { id: 'mat_speed', name: 'Neural Overclock', costBits: 1, desc: '+5% Dev Speed per level' },
+            { id: 'mat_rev', name: 'Market Mastery', costBits: 2, desc: '+8% Revenue on all game sales per level' },
+            { id: 'mat_rp', name: 'Cognitive Processing', costBits: 1, desc: '+15% Research Point generation per level' },
+            { id: 'mat_rep', name: 'Brand Prestige', costBits: 3, desc: '+0.2 Baseline Studio Reputation per level' }
         ];
 
+        // Developer Pool
         const CANDIDATES_DB = [
-            { id: 'c1', name: 'Alex Rivers', role: 'Programmer', skill: 'code', speed: 1.5, salary: 400 },
-            { id: 'c2', name: 'Elena Rostova', role: 'Pixel Artist', skill: 'art', speed: 1.5, salary: 450 },
-            { id: 'c3', name: 'Marcus Vance', role: 'Sound Designer', skill: 'audio', speed: 1.5, salary: 420 },
-            { id: 'c4', name: 'Sora Takahashi', role: 'Full-Stack Lead', skill: 'code', speed: 3.0, salary: 1200 }
+            { id: 'c1', name: 'Alex Rivers', role: 'Junior Programmer', skill: 'code', speed: 1.2, salary: 500 },
+            { id: 'c2', name: 'Elena Rostova', role: '2D Pixel Artist', skill: 'art', speed: 1.2, salary: 550 },
+            { id: 'c3', name: 'Marcus Vance', role: 'Sound Engineer', skill: 'audio', speed: 1.2, salary: 520 },
+            { id: 'c4', name: 'Sora Takahashi', role: 'Senior Engine Architect', skill: 'code', speed: 2.8, salary: 2200 },
+            { id: 'c5', name: 'Diana Prince', role: 'Lead Art Director', skill: 'art', speed: 3.0, salary: 2500 },
+            { id: 'c6', name: 'Leo Sterling', role: 'Audio Maestro', skill: 'audio', speed: 2.5, salary: 1900 }
         ];
 
+        // Marketing Campaigns
         const MARKETING_DB = [
-            { id: 'mkt_social', name: 'Social Media Hype', cost: 1000, hype: 1.2 },
-            { id: 'mkt_streamer', name: 'Sponsor Top Streamers', cost: 5000, hype: 1.6 },
-            { id: 'mkt_billboard', name: 'Global Billboard Blitz', cost: 20000, hype: 2.2 }
+            { id: 'mkt_social', name: 'Social Media Teasers', cost: 2500, hype: 1.15 },
+            { id: 'mkt_streamer', name: 'Sponsor Indie Streamers', cost: 12000, hype: 1.35 },
+            { id: 'mkt_convention', name: 'Gaming Expo Booth', cost: 45000, hype: 1.70 },
+            { id: 'mkt_tv', name: 'Global Commercial Blitz', cost: 150000, hype: 2.20 }
         ];
 
-        // --- APP INIT & EVENTS ---
+        // --- APP INIT & EVENT BINDINGS ---
         function initApp() {
             loadState();
             lucide.createIcons();
@@ -440,9 +457,12 @@
             renderAll();
         }
 
-        function saveState() { localStorage.setItem('byte_studio_deep_save', JSON.stringify(state)); }
+        function saveState() { 
+            localStorage.setItem('byte_studio_hardcore_save', JSON.stringify(state)); 
+        }
+
         function loadState() {
-            const saved = localStorage.getItem('byte_studio_deep_save');
+            const saved = localStorage.getItem('byte_studio_hardcore_save');
             if (saved) {
                 try { state = Object.assign({}, DEFAULT_STATE, JSON.parse(saved)); }
                 catch(e){ state = JSON.parse(JSON.stringify(DEFAULT_STATE)); }
@@ -452,11 +472,12 @@
         function setupEventListeners() {
             // Sound Toggle
             document.getElementById('btn-sound').addEventListener('click', (e) => {
-                AudioFX.init(); AudioFX.enabled = !AudioFX.enabled;
+                AudioFX.init(); 
+                AudioFX.enabled = !AudioFX.enabled;
                 e.currentTarget.classList.toggle('text-indigo-400', AudioFX.enabled);
             });
 
-            // Tabs
+            // Tab Navigation
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     AudioFX.play(600);
@@ -467,9 +488,9 @@
                 });
             });
 
-            // Project Modal Trigger
+            // Open Project Modal
             document.getElementById('btn-new-project').addEventListener('click', () => {
-                if (state.activeProject) return alert("Finish current project first!");
+                if (state.activeProject) return alert("Complete current game project first!");
                 populateGenrePlatformOptions();
                 document.getElementById('modal-project').classList.remove('hidden');
             });
@@ -479,40 +500,45 @@
                 b.addEventListener('click', () => b.closest('.fixed').classList.add('hidden'));
             });
 
-            // Confirm Start Game
+            // Confirm New Project
             document.getElementById('btn-start-dev-confirm').addEventListener('click', () => {
-                const title = document.getElementById('input-game-title').value.trim() || "Project Quantum";
+                const title = document.getElementById('input-game-title').value.trim() || "Project Titan";
                 const genre = document.getElementById('select-game-genre').value;
                 const platform = document.getElementById('select-game-platform').value;
 
                 state.activeProject = {
                     title, genre, platform,
                     code: 0, art: 0, audio: 0,
-                    codeTarget: 100, artTarget: 100, audioTarget: 100,
-                    bugs: 0, quality: 10
+                    codeTarget: 250, artTarget: 250, audioTarget: 250,
+                    bugs: 0, quality: 5
                 };
                 document.getElementById('modal-project').classList.add('hidden');
                 AudioFX.play(800);
-                logActivity(`Began production of "${title}"`);
+                logActivity(`Started development of "${title}"`);
                 saveState(); renderAll();
             });
 
-            // Dev Actions
+            // Interactive Actions
             document.getElementById('btn-crunch').addEventListener('click', () => {
                 if (!state.activeProject) return;
                 AudioFX.play(400);
-                let mult = 1.0 + ((state.matrixUpgrades['mat_speed'] || 0) * 0.25);
-                state.activeProject.code = Math.min(100, state.activeProject.code + (8 * mult));
-                state.activeProject.art = Math.min(100, state.activeProject.art + (8 * mult));
-                state.activeProject.audio = Math.min(100, state.activeProject.audio + (8 * mult));
-                if (Math.random() < 0.35) state.activeProject.bugs += 1;
+                let speedMult = 1.0 + ((state.matrixUpgrades['mat_speed'] || 0) * 0.05);
+                if (state.purchasedUpgrades.includes('cpu_1')) speedMult += 0.15;
+
+                state.activeProject.code = Math.min(250, state.activeProject.code + (10 * speedMult));
+                state.activeProject.art = Math.min(250, state.activeProject.art + (10 * speedMult));
+                state.activeProject.audio = Math.min(250, state.activeProject.audio + (10 * speedMult));
+
+                let bugChance = state.unlockedResearch.includes('res_auto_debug') ? 0.2 : 0.45;
+                if (Math.random() < bugChance) state.activeProject.bugs += 1;
+
                 renderAll();
             });
 
             document.getElementById('btn-generate-rp').addEventListener('click', () => {
                 AudioFX.play(900);
-                let rpMult = 1.0 + ((state.matrixUpgrades['mat_rp'] || 0) * 1.0);
-                state.rp += Math.floor(5 * rpMult);
+                let rpMult = 1.0 + ((state.matrixUpgrades['mat_rp'] || 0) * 0.15);
+                state.rp += Math.floor(3 * rpMult);
                 renderAll();
             });
 
@@ -526,7 +552,7 @@
             document.getElementById('btn-polish').addEventListener('click', () => {
                 if (!state.activeProject) return;
                 AudioFX.play(700);
-                state.activeProject.quality += 4;
+                state.activeProject.quality += 2;
                 renderAll();
             });
 
@@ -535,7 +561,7 @@
                 publishGame();
             });
 
-            // Hire Modal
+            // Hire Modal Trigger
             document.getElementById('btn-hire-modal').addEventListener('click', () => {
                 renderHireList();
                 document.getElementById('modal-hire').classList.remove('hidden');
@@ -546,150 +572,176 @@
                 document.getElementById('modal-review').classList.add('hidden');
             });
 
-            // Trigger Prestige
+            // Rebirth / Prestige Actions
             document.getElementById('btn-trigger-prestige').addEventListener('click', triggerPrestige);
             document.getElementById('btn-prestige-open').addEventListener('click', () => {
                 document.querySelector('[data-tab="tab-prestige"]').click();
             });
         }
 
-        // --- GAME ENGINE LOOP ---
+        // --- MAIN ENGINE LOOP ---
         function startMainLoop() {
             setInterval(() => {
                 state.monthTick++;
 
-                // Passive Staff Development Work
+                // Passive Staff Output
                 if (state.activeProject) {
-                    let speedMult = 1.0 + ((state.matrixUpgrades['mat_speed'] || 0) * 0.25);
+                    let speedMult = 1.0 + ((state.matrixUpgrades['mat_speed'] || 0) * 0.05);
                     state.hiredStaff.forEach(s => {
-                        if (s.skill === 'code') state.activeProject.code = Math.min(100, state.activeProject.code + (s.speed * speedMult));
-                        if (s.skill === 'art') state.activeProject.art = Math.min(100, state.activeProject.art + (s.speed * speedMult));
-                        if (s.skill === 'audio') state.activeProject.audio = Math.min(100, state.activeProject.audio + (s.speed * speedMult));
+                        if (s.skill === 'code') state.activeProject.code = Math.min(250, state.activeProject.code + (s.speed * speedMult));
+                        if (s.skill === 'art') state.activeProject.art = Math.min(250, state.activeProject.art + (s.speed * speedMult));
+                        if (s.skill === 'audio') state.activeProject.audio = Math.min(250, state.activeProject.audio + (s.speed * speedMult));
                     });
                 }
 
-                // Passive Revenue from Released Catalog
+                // Passive Hardware Server RP Generation
+                if (state.purchasedUpgrades.includes('server_rack')) {
+                    let rpMult = 1.0 + ((state.matrixUpgrades['mat_rp'] || 0) * 0.15);
+                    state.rp += Math.floor(5 * rpMult);
+                }
+
+                // Long-Tail Sales Revenue Decay
                 let passiveSales = 0;
-                let revMult = 1.0 + ((state.matrixUpgrades['mat_rev'] || 0) * 0.5);
+                let revMult = 1.0 + ((state.matrixUpgrades['mat_rev'] || 0) * 0.08);
                 state.releasedGames.forEach(g => {
-                    let monthly = Math.floor((g.revenue * revMult) * Math.pow(0.88, (state.monthTick - g.releaseMonth)));
-                    if (monthly > 20) passiveSales += monthly;
+                    let monthly = Math.floor((g.revenue * revMult * 0.08) * Math.pow(0.85, (state.monthTick - g.releaseMonth)));
+                    if (monthly > 10) passiveSales += monthly;
                 });
 
                 // Expenses
-                let salaries = 200;
+                let salaries = 300; // Base overhead
                 state.hiredStaff.forEach(s => salaries += s.salary);
 
                 state.cash += (passiveSales - salaries);
 
                 saveState();
                 renderAll();
-            }, 2500);
+            }, 3000);
         }
 
-        // --- GAME ACTIONS ---
+        // --- CORE LOGIC & PUBLISHING ---
         function publishGame() {
             const p = state.activeProject;
             if (!p) return;
 
-            let score = ((p.code + p.art + p.audio) / 300) * 8 + (p.quality * 0.1) - (p.bugs * 0.4);
-            score = Math.min(10, Math.max(1.5, score)).toFixed(1);
+            // Score Calculation
+            let completionRatio = (p.code + p.art + p.audio) / 750;
+            let bugPenalty = p.bugs * 0.5;
+            let score = (completionRatio * 7.0) + (p.quality * 0.15) - bugPenalty;
+            score = Math.min(10.0, Math.max(1.0, score)).toFixed(1);
 
-            let revMult = 1.0 + ((state.matrixUpgrades['mat_rev'] || 0) * 0.5);
-            let revenue = Math.floor(8000 * Math.pow(score / 4, 2.2) * state.reputation * state.hypeMultiplier * revMult);
+            // Revenue Math (Strict Scaling)
+            let revMult = 1.0 + ((state.matrixUpgrades['mat_rev'] || 0) * 0.08);
+            let baseRevenue = Math.floor(12000 * Math.pow(parseFloat(score) / 4.5, 2.5) * state.reputation * state.hypeMultiplier * revMult);
 
-            state.cash += revenue;
-            state.reputation = Math.min(5.0, state.reputation + (score > 7.5 ? 0.2 : -0.1)).toFixed(1);
-            state.hypeMultiplier = 1.0; // Reset hype
+            state.cash += baseRevenue;
+            state.reputation = Math.min(5.0, Math.max(0.5, parseFloat(state.reputation) + (score >= 7.5 ? 0.15 : -0.2))).toFixed(1);
+            state.hypeMultiplier = 1.0; // Reset Hype Campaign
 
             state.releasedGames.unshift({
-                title: p.title, genre: p.genre, platform: p.platform, score, revenue, releaseMonth: state.monthTick
+                title: p.title, genre: p.genre, platform: p.platform, score, revenue: baseRevenue, releaseMonth: state.monthTick
             });
 
             document.getElementById('review-game-title').innerText = p.title;
             document.getElementById('review-game-meta').innerText = `${p.genre} • ${p.platform}`;
-            document.getElementById('review-score').innerText = `${score}/10`;
-            document.getElementById('review-revenue').innerText = `+$${revenue.toLocaleString()}`;
-            document.getElementById('review-quote').innerText = score >= 8.5 ? '"A revolutionary masterpiece!"' : '"Decent game, but room for improvement."';
-            document.getElementById('modal-review').classList.remove('hidden');
+            document.getElementById('review-score').innerText = `${score} / 10`;
+            document.getElementById('review-revenue').innerText = `+$${baseRevenue.toLocaleString()}`;
+            document.getElementById('review-quote').innerText = score >= 8.5 
+                ? '"An unbelievable hit that redefines the genre!"' 
+                : score >= 6.0 
+                ? '"Solid mechanics and decent execution."' 
+                : '"Plagued by bugs and lack of polish."';
 
-            logActivity(`Published "${p.title}"! Rating: ${score}/10, Revenue: $${revenue.toLocaleString()}`);
+            document.getElementById('modal-review').classList.remove('hidden');
+            logActivity(`Launched "${p.title}" | Score: ${score}/10, Revenue: $${baseRevenue.toLocaleString()}`);
 
             state.activeProject = null;
             saveState(); renderAll();
         }
 
+        // --- STRICT REBIRTH MATH ---
         function calculatePrestigeBits() {
-            // Earn Bits based on lifetime net worth and total games shipped
-            let netWorth = state.cash + (state.releasedGames.length * 5000);
-            if (netWorth < 50000) return 0;
-            return Math.floor(Math.sqrt(netWorth / 25000));
+            // Net Worth calculation
+            let netWorth = state.cash + (state.releasedGames.length * 10000);
+            
+            // Rebirth Threshold: Must have at least $500,000 Net Worth!
+            if (netWorth < 500000) return 0;
+            
+            // Hardcore Diminishing Returns Formula
+            return Math.floor(Math.pow(netWorth / 500000, 0.5));
         }
 
         function triggerPrestige() {
             let bitsGained = calculatePrestigeBits();
-            if (bitsGained <= 0) return alert("Earn at least $50,000 net worth before rebirthing!");
+            if (bitsGained <= 0) {
+                return alert("Rebirth Lock: You need at least $500,000 Net Worth to Rebirth!");
+            }
 
-            if (confirm(`Sell studio for ${bitsGained} Byte Bits? This resets cash, non-matrix research, and staff!`)) {
+            if (confirm(`Perform Rebirth? You will gain ${bitsGained} Byte Bits. Cash, regular research, staff, and office upgrades will reset!`)) {
                 state.bits += bitsGained;
                 state.cash = 10000;
                 state.rp = 0;
-                state.reputation = 1.0;
+                state.reputation = 1.0 + ((state.matrixUpgrades['mat_rep'] || 0) * 0.2);
                 state.activeProject = null;
                 state.releasedGames = [];
                 state.hiredStaff = [];
                 state.purchasedUpgrades = [];
                 state.unlockedResearch = ['genre_action', 'plat_pc'];
 
-                logActivity(`PRESTIGE REBIRTH! Earned ${bitsGained} Byte Bits.`);
+                logActivity(`REBIRTH COMPLETED! Awarded ${bitsGained} Byte Bits.`);
                 saveState(); renderAll();
             }
         }
 
+        // --- SHOP ACTIONS ---
         function buyResearch(id) {
             const res = RESEARCH_DB.find(r => r.id === id);
-            if (!res || state.rp < res.costRP) return alert("Not enough Research Points!");
+            if (!res || state.rp < res.costRP) return alert("Insufficient Research Points!");
             state.rp -= res.costRP;
             state.unlockedResearch.push(id);
-            logActivity(`Researched: ${res.name}`);
+            logActivity(`Unlocked Research: ${res.name}`);
             saveState(); renderAll();
         }
 
         function buyUpgrade(id) {
             const upg = UPGRADES_DB.find(u => u.id === id);
-            if (!upg || state.cash < upg.cost) return alert("Not enough cash!");
+            if (!upg || state.cash < upg.cost) return alert("Insufficient studio funds!");
             state.cash -= upg.cost;
             state.purchasedUpgrades.push(id);
-            logActivity(`Purchased Office Upgrade: ${upg.name}`);
+            logActivity(`Purchased Hardware/Office: ${upg.name}`);
             saveState(); renderAll();
         }
 
         function buyMatrixUpgrade(id) {
             const m = MATRIX_UPGRADES_DB.find(x => x.id === id);
-            if (!m || state.bits < m.costBits) return alert("Not enough Byte Bits!");
+            if (!m || state.bits < m.costBits) return alert("Insufficient Byte Bits!");
             state.bits -= m.costBits;
             state.matrixUpgrades[id] = (state.matrixUpgrades[id] || 0) + 1;
-            logActivity(`Matrix Upgrade Acquired: ${m.name}`);
+            logActivity(`Upgraded Byte Matrix: ${m.name} (Lvl ${state.matrixUpgrades[id]})`);
             saveState(); renderAll();
         }
 
         function buyMarketing(id) {
             const mkt = MARKETING_DB.find(m => m.id === id);
-            if (!mkt || state.cash < mkt.cost) return alert("Not enough cash!");
+            if (!mkt || state.cash < mkt.cost) return alert("Insufficient cash!");
             state.cash -= mkt.cost;
             state.hypeMultiplier *= mkt.hype;
-            logActivity(`Launched Campaign: ${mkt.name}`);
+            logActivity(`Marketing Campaign Active: ${mkt.name}`);
             saveState(); renderAll();
         }
 
         function hireCandidate(id) {
             const cand = CANDIDATES_DB.find(c => c.id === id);
             if (!cand) return;
-            const limit = state.purchasedUpgrades.includes('office_2') ? 6 : 4;
-            if (state.hiredStaff.length + 1 >= limit) return alert("Office capacity full!");
+            
+            let limit = 3;
+            if (state.purchasedUpgrades.includes('office_2')) limit = 5;
+            if (state.purchasedUpgrades.includes('office_3')) limit = 10;
+
+            if (state.hiredStaff.length + 1 >= limit) return alert("Office capacity full! Upgrade your office building.");
 
             state.hiredStaff.push(cand);
-            logActivity(`Hired ${cand.name}`);
+            logActivity(`Hired Developer: ${cand.name}`);
             document.getElementById('modal-hire').classList.add('hidden');
             saveState(); renderAll();
         }
@@ -703,7 +755,7 @@
             document.getElementById('research-rp-display').innerText = state.rp;
             document.getElementById('prestige-gain-display').innerText = `${calculatePrestigeBits()} Bits`;
 
-            // Active Project Rendering
+            // Active Project Render
             const p = state.activeProject;
             if (p) {
                 document.getElementById('active-dev-container').classList.remove('hidden');
@@ -714,33 +766,41 @@
                 document.getElementById('dev-game-bugs').innerText = p.bugs;
                 document.getElementById('dev-game-quality').innerText = p.quality;
 
-                document.getElementById('progress-code-bar').style.width = `${p.code}%`;
-                document.getElementById('progress-code-text').innerText = `${Math.floor(p.code)}%`;
-                document.getElementById('progress-art-bar').style.width = `${p.art}%`;
-                document.getElementById('progress-art-text').innerText = `${Math.floor(p.art)}%`;
-                document.getElementById('progress-audio-bar').style.width = `${p.audio}%`;
-                document.getElementById('progress-audio-text').innerText = `${Math.floor(p.audio)}%`;
+                let cPct = (p.code / 250) * 100;
+                let aPct = (p.art / 250) * 100;
+                let auPct = (p.audio / 250) * 100;
+
+                document.getElementById('progress-code-bar').style.width = `${cPct}%`;
+                document.getElementById('progress-code-text').innerText = `${Math.floor(p.code)} / 250`;
+                document.getElementById('progress-art-bar').style.width = `${aPct}%`;
+                document.getElementById('progress-art-text').innerText = `${Math.floor(p.art)} / 250`;
+                document.getElementById('progress-audio-bar').style.width = `${auPct}%`;
+                document.getElementById('progress-audio-text').innerText = `${Math.floor(p.audio)} / 250`;
             } else {
                 document.getElementById('active-dev-container').classList.add('hidden');
                 document.getElementById('active-dev-placeholder').classList.remove('hidden');
             }
 
-            // Render Catalog
+            // Catalog Render
             const catalogList = document.getElementById('catalog-list');
             if (state.releasedGames.length > 0) {
                 catalogList.innerHTML = state.releasedGames.map(g => `
                     <div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
                         <div><strong class="text-white">${g.title}</strong><p class="text-[10px] text-slate-400">${g.genre} • ${g.platform}</p></div>
-                        <div class="text-right"><span class="text-amber-400 font-bold">${g.score}/10</span><span class="text-emerald-400 font-mono block text-[10px]">+$${g.revenue.toLocaleString()}</span></div>
+                        <div class="text-right"><span class="text-amber-400 font-bold">${g.score} / 10</span><span class="text-emerald-400 font-mono block text-[10px]">+$${g.revenue.toLocaleString()}</span></div>
                     </div>
                 `).join('');
             }
 
-            // Render Staff
-            document.getElementById('team-count').innerText = `${state.hiredStaff.length + 1} / ${state.purchasedUpgrades.includes('office_2') ? 6 : 4} Staff`;
+            // Staff Render
+            let staffLimit = 3;
+            if (state.purchasedUpgrades.includes('office_2')) staffLimit = 5;
+            if (state.purchasedUpgrades.includes('office_3')) staffLimit = 10;
+            document.getElementById('team-count').innerText = `${state.hiredStaff.length + 1} / ${staffLimit} Staff`;
+
             document.getElementById('team-list').innerHTML = `
                 <div class="bg-slate-900/80 p-2 rounded-xl border border-slate-800 text-xs flex justify-between items-center">
-                    <div><strong class="text-white">Founder (You)</strong><p class="text-[10px] text-slate-400">Lead Dev</p></div>
+                    <div><strong class="text-white">Founder (You)</strong><p class="text-[10px] text-slate-400">Lead Developer</p></div>
                     <span class="text-[10px] text-emerald-400">Owner</span>
                 </div>
             ` + state.hiredStaff.map(s => `
@@ -750,7 +810,7 @@
                 </div>
             `).join('');
 
-            // Render Research Tree
+            // Research Tree Render
             document.getElementById('research-tree-grid').innerHTML = RESEARCH_DB.map(r => {
                 const unlocked = state.unlockedResearch.includes(r.id);
                 return `
@@ -766,34 +826,31 @@
                 `;
             }).join('');
 
-            // Render Hardware Upgrades
             document.getElementById('upgrades-grid').innerHTML = UPGRADES_DB.map(u => {
                 const bought = state.purchasedUpgrades.includes(u.id);
                 return `
                     <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex justify-between items-center">
                         <div><h4 class="font-bold text-xs text-white">${u.name}</h4><p class="text-[10px] text-slate-400 mt-0.5">${u.desc}</p></div>
                         ${bought 
-                            ? `<span class="text-[10px] text-indigo-400 border border-indigo-800 px-2 py-0.5 rounded">Owned</span>`
-                            : `<button onclick="buyUpgrade('${u.id}')" class="px-3 py-1.5 bg-indigo-600 text-white text-xs rounded-lg">$${u.cost.toLocaleString()}</button>`}
+                            ? `<span class="text-[10px] text-indigo-400 border border-indigo-800 px-2 py-0.5 rounded">Purchased</span>`
+                            : `<button onclick="buyUpgrade('${u.id}')" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs rounded-lg">$${u.cost.toLocaleString()}</button>`}
                     </div>
                 `;
             }).join('');
 
-            // Render Marketing
             document.getElementById('marketing-campaigns-list').innerHTML = MARKETING_DB.map(m => `
                 <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
-                    <div><strong class="text-white">${m.name}</strong><p class="text-[10px] text-purple-400">+${Math.round((m.hype - 1)*100)}% Hype Multiplier</p></div>
+                    <div><strong class="text-white">${m.name}</strong><p class="text-[10px] text-purple-400">+${Math.round((m.hype - 1)*100)}% Release Hype</p></div>
                     <button onclick="buyMarketing('${m.id}')" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white text-xs rounded-lg">$${m.cost.toLocaleString()}</button>
                 </div>
             `).join('');
 
-            // Render Prestige Upgrades Matrix
             document.getElementById('prestige-upgrades-grid').innerHTML = MATRIX_UPGRADES_DB.map(m => {
                 const lvl = state.matrixUpgrades[m.id] || 0;
                 return `
                     <div class="bg-slate-900 p-4 rounded-xl border border-amber-500/30 flex flex-col justify-between">
                         <div>
-                            <div class="flex justify-between items-center"><h4 class="font-bold text-xs text-amber-300">${m.name}</h4><span class="text-xs font-mono text-amber-400">Lvl ${lvl}</span></div>
+                            <div class="flex justify-between items-center"><h4 class="font-bold text-xs text-amber-300">${m.name}</h4><span class="text-xs font-mono text-amber-400">Level ${lvl}</span></div>
                             <p class="text-[10px] text-slate-400 mt-1">${m.desc}</p>
                         </div>
                         <div class="mt-4 flex justify-between items-center">
