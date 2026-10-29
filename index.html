@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Byte Studio - Hardcore Simulator</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -29,7 +27,6 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col select-none overflow-x-hidden">
 
-    <!-- Top Navigation Bar -->
     <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 py-3 flex flex-wrap justify-between items-center gap-4">
         <div class="flex items-center gap-3">
             <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/30">
@@ -43,7 +40,6 @@
             </div>
         </div>
 
-        <!-- Stats Bar -->
         <div class="flex items-center gap-3 sm:gap-5 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 text-xs sm:text-sm">
             <div class="flex items-center gap-1.5" title="Studio Cash">
                 <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-400"></i>
@@ -77,10 +73,8 @@
         </div>
     </header>
 
-    <!-- Main Workspace with Tabs -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6">
 
-        <!-- Navigation Tabs -->
         <div class="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto">
             <button class="tab-btn active px-4 py-2 rounded-xl border border-slate-800 text-xs font-bold text-slate-400 hover:text-white transition-all flex items-center gap-2" data-tab="tab-dev">
                 <i data-lucide="gamepad-2" class="w-4 h-4"></i> Development
@@ -99,7 +93,6 @@
             </button>
         </div>
 
-        <!-- TAB 1: DEVELOPMENT -->
         <div id="tab-dev" class="tab-content grid grid-cols-1 lg:grid-cols-3 gap-6">
             <section class="lg:col-span-2 space-y-6">
                 <div class="glass-panel rounded-2xl p-6 relative">
@@ -213,7 +206,6 @@
             </section>
         </div>
 
-        <!-- TAB 2: RESEARCH TECH TREE -->
         <div id="tab-research" class="tab-content hidden space-y-6">
             <div class="glass-panel rounded-2xl p-6">
                 <div class="flex justify-between items-center mb-4">
@@ -231,7 +223,6 @@
             </div>
         </div>
 
-        <!-- TAB 3: UPGRADES -->
         <div id="tab-upgrades" class="tab-content hidden space-y-6">
             <div class="glass-panel rounded-2xl p-6">
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
@@ -242,7 +233,6 @@
             </div>
         </div>
 
-        <!-- TAB 4: MARKETING & PUBLISHERS -->
         <div id="tab-marketing" class="tab-content hidden grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="glass-panel rounded-2xl p-6">
                 <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
@@ -261,7 +251,6 @@
             </div>
         </div>
 
-        <!-- TAB 5: PRESTIGE (BYTE MATRIX) -->
         <div id="tab-prestige" class="tab-content hidden space-y-6">
             <div class="glass-panel rounded-2xl p-6 border border-amber-500/20">
                 <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
@@ -285,7 +274,6 @@
 
     </main>
 
-    <!-- MODALS -->
     <div id="modal-project" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel max-w-lg w-full rounded-2xl p-6 border border-slate-800 relative">
             <button class="modal-close absolute top-4 right-4 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -334,9 +322,7 @@
         </div>
     </div>
 
-<!-- PART 2: AUDIO SYNTH & EXPANDED GAME ENGINE -->
     <script>
-        // --- Web Audio API Synthesizer ---
         const AudioFX = {
             ctx: null, 
             enabled: true,
@@ -361,7 +347,6 @@
             }
         };
 
-        // --- HARDCORE BALANCED GAME DATA ---
         const DEFAULT_STATE = {
             cash: 10000,
             rp: 0,
@@ -380,7 +365,6 @@
 
         let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
 
-        // Rebalanced Genres with Research Requirements
         const GENRES_DB = [
             { id: 'genre_action', name: '2D Action Platformer', reqResearch: null },
             { id: 'genre_puzzle', name: 'Logic Puzzle', reqResearch: null },
@@ -390,7 +374,6 @@
             { id: 'genre_mmo', name: 'MMORPG Empire', reqResearch: 'res_mmo' }
         ];
 
-        // Platforms
         const PLATFORMS_DB = [
             { id: 'plat_pc', name: 'PC Steam', reqResearch: null },
             { id: 'plat_web', name: 'Web Browser', reqResearch: null },
@@ -399,7 +382,6 @@
             { id: 'plat_vr', name: 'VR Headset', reqResearch: 'res_vr' }
         ];
 
-        // Extended Tech Research Tree
         const RESEARCH_DB = [
             { id: 'res_rpg', name: 'RPG Story Systems', costRP: 100, desc: 'Unlocks Retro RPG genre' },
             { id: 'res_sim', name: 'Physics Engine', costRP: 250, desc: 'Unlocks Simulation genre' },
@@ -412,7 +394,6 @@
             { id: 'res_marketing_v2', name: 'Data-Driven Ad Targeting', costRP: 3000, desc: 'Unlocks Tier-2 Marketing Campaigns' }
         ];
 
-        // Hardware & Office Upgrades
         const UPGRADES_DB = [
             { id: 'cpu_1', name: 'Quad-Core Workstations', cost: 5000, desc: '+15% coding speed' },
             { id: 'gpu_1', name: 'Render Accelerators', cost: 12000, desc: '+20% graphics speed' },
@@ -422,7 +403,6 @@
             { id: 'server_rack', name: 'In-House Blade Server', cost: 85000, desc: 'Generates passive RP automatically each month' }
         ];
 
-        // Rebalanced Hardcore Matrix Upgrades (Small, Long-Term Gains)
         const MATRIX_UPGRADES_DB = [
             { id: 'mat_speed', name: 'Neural Overclock', costBits: 1, desc: '+5% Dev Speed per level' },
             { id: 'mat_rev', name: 'Market Mastery', costBits: 2, desc: '+8% Revenue on all game sales per level' },
@@ -430,7 +410,6 @@
             { id: 'mat_rep', name: 'Brand Prestige', costBits: 3, desc: '+0.2 Baseline Studio Reputation per level' }
         ];
 
-        // Developer Pool
         const CANDIDATES_DB = [
             { id: 'c1', name: 'Alex Rivers', role: 'Junior Programmer', skill: 'code', speed: 1.2, salary: 500 },
             { id: 'c2', name: 'Elena Rostova', role: '2D Pixel Artist', skill: 'art', speed: 1.2, salary: 550 },
@@ -440,15 +419,89 @@
             { id: 'c6', name: 'Leo Sterling', role: 'Audio Maestro', skill: 'audio', speed: 2.5, salary: 1900 }
         ];
 
-        // Marketing Campaigns
         const MARKETING_DB = [
             { id: 'mkt_social', name: 'Social Media Teasers', cost: 2500, hype: 1.15 },
             { id: 'mkt_streamer', name: 'Sponsor Indie Streamers', cost: 12000, hype: 1.35 },
             { id: 'mkt_convention', name: 'Gaming Expo Booth', cost: 45000, hype: 1.70 },
             { id: 'mkt_tv', name: 'Global Commercial Blitz', cost: 150000, hype: 2.20 }
         ];
+        
+        const ENGINE_PARTS_DB = [
+            { id: 'physics_2d', name: '2D Physics Module', costRP: 100, bonus: 0.1 },
+            { id: 'physics_3d', name: '3D Vector Engine', costRP: 300, bonus: 0.25 },
+            { id: 'net_multi', name: 'Multiplayer Netcode', costRP: 600, bonus: 0.3 },
+            { id: 'ai_path', name: 'Advanced AI Navmesh', costRP: 400, bonus: 0.2 },
+            { id: 'audio_dsp', name: 'Spatial Audio DSP', costRP: 200, bonus: 0.15 }
+        ];
+        
+        if (!state.customEngines) state.customEngines = [];
+        if (!state.activePublishContract) state.activePublishContract = null;
+        
+        const PUBLISHER_CONTRACTS_DB = [
+            { 
+                id: 'pub_indie_1', 
+                name: 'PixelForge Publishing', 
+                advance: 15000, 
+                minScore: 6.0, 
+                share: 0.70, 
+                penalty: 10000,
+                desc: 'Provides $15,000 advance. Requires 6.0+ review score. Takes 30% revenue cut.' 
+            },
+            { 
+                id: 'pub_major_2', 
+                name: 'Apex Interactive', 
+                advance: 75000, 
+                minScore: 7.5, 
+                share: 0.55, 
+                penalty: 50000,
+                desc: 'Provides $75,000 advance. Requires 7.5+ review score. Takes 45% revenue cut.' 
+            },
+            { 
+                id: 'pub_global_3', 
+                name: 'Global MegaGames', 
+                advance: 300000, 
+                minScore: 8.5, 
+                share: 0.40, 
+                penalty: 200000,
+                desc: 'Massive $300,000 advance. Requires elite 8.5+ score or massive penalty!' 
+            }
+        ];
+        
+        function signPublisherContract(contractId) {
+            const contract = PUBLISHER_CONTRACTS_DB.find(c => c.id === contractId);
+            if (!contract) return;
+            
+            if (state.activePublishContract) {
+                return alert("You already have an active publisher contract!");
+            }
 
-        // --- APP INIT & EVENT BINDINGS ---
+            state.activePublishContract = contract;
+            state.cash += contract.advance;
+            logActivity(`Signed publishing contract with ${contract.name} for $${contract.advance.toLocaleString()} advance!`);
+            saveState();
+            renderAll();
+        }
+        
+        function createCustomEngine(engineName, selectedParts) {
+            if (!engineName) return alert("Enter an engine name!");
+    
+            let totalBonus = 1.0;
+            selectedParts.forEach(partId => {
+                const part = ENGINE_PARTS_DB.find(p => p.id === partId);
+                if (part) totalBonus += part.bonus;
+            });
+
+            state.customEngines.push({
+                name: engineName,
+                bonus: totalBonus,
+                parts: selectedParts
+            });
+            
+            logActivity(`Developed proprietary engine: "${engineName}" (Score Multiplier: +${Math.round((totalBonus-1)*100)}%)`);
+            saveState();
+            renderAll();
+        }
+
         function initApp() {
             loadState();
             lucide.createIcons();
@@ -470,14 +523,12 @@
         }
 
         function setupEventListeners() {
-            // Sound Toggle
             document.getElementById('btn-sound').addEventListener('click', (e) => {
                 AudioFX.init(); 
                 AudioFX.enabled = !AudioFX.enabled;
                 e.currentTarget.classList.toggle('text-indigo-400', AudioFX.enabled);
             });
 
-            // Tab Navigation
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     AudioFX.play(600);
@@ -488,19 +539,16 @@
                 });
             });
 
-            // Open Project Modal
             document.getElementById('btn-new-project').addEventListener('click', () => {
                 if (state.activeProject) return alert("Complete current game project first!");
                 populateGenrePlatformOptions();
                 document.getElementById('modal-project').classList.remove('hidden');
             });
 
-            // Close Modals
             document.querySelectorAll('.modal-close').forEach(b => {
                 b.addEventListener('click', () => b.closest('.fixed').classList.add('hidden'));
             });
 
-            // Confirm New Project
             document.getElementById('btn-start-dev-confirm').addEventListener('click', () => {
                 const title = document.getElementById('input-game-title').value.trim() || "Project Titan";
                 const genre = document.getElementById('select-game-genre').value;
